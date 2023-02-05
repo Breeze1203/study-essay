@@ -1679,3 +1679,107 @@ public class MyConfig implements WebMvcConfigurer {
 
 HttpMessageConverter：转换器(json-->对象,对象-->json)，所有的Json工具都有自己的转换器(HttpMessageConverter)
 
+$\textcolor{red}{jackson}$
+
+1.单个配置
+
+```java
+public class User {
+    // 指定属性序列化/反序列化的名称 默认名称就是属性名 index是返回的顺序
+    @JsonProperty(value = "username")
+    private String name;
+    @JsonProperty(index = 2)
+    private Integer age;
+    @JsonProperty(index = 3)
+    private String email;
+
+    // 日期格式化，注意时区
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Wuhan")
+    private Date birthday;
+    @JsonProperty(index = 1)
+    public String getName() {
+        return name;
+    }
+```
+
+```java
+ @GetMapping("/user")
+    public User getUser(){
+        User user=new User();
+        user.setAge(19);
+        user.setName("breeze");
+        user.setEmail("www.breeze.com");
+        user.setBirthday(new Date())
+        return user;
+       
+      //  运行结果 
+        {
+    "username": "breeze",
+    "age": 19,
+    "email": "www.breeze.com",
+    "birthday": "2023-02-05"
+}
+    }
+
+```
+
+2.全局配置
+
+```java
+@Configuration
+public class WebMvcConfig {
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        ObjectMapper ob=new ObjectMapper();
+        ob.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        return ob;
+    }
+}
+```
+
+$\textcolor{red}{gson}$   GsonAutoConfiguration
+
+```xml
+<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!--            去掉json依赖-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--        添加gson依赖-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+```
+
+```java
+import com.google.gson.GsonBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class WebMvcConfig {
+    @Bean
+    GsonBuilder gsonBuilder(){
+        GsonBuilder gsonBuilder=new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        return gsonBuilder;
+    
+    }
+}
+```
+
