@@ -1667,3 +1667,15 @@ public class MyConfig implements WebMvcConfigurer {
     }
 }
 ```
+##### 认识json主流框架
+
+三大主流框架:jackjson,gson,fastjson
+
+序列化与反序列化：
+
+序列化：对象-->json(响应json)
+
+反序列化：json-->对象(请求参数是json)
+
+HttpMessageConverter：转换器(json-->对象,对象-->json)，所有的Json工具都有自己的转换器(HttpMessageConverter)
+
