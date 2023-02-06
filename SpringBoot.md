@@ -1783,3 +1783,46 @@ public class WebMvcConfig {
 }
 ```
 
+##### springboot实现跨域
+
+同源策略：同源策略限制了不同源之间如何进行资源交互，是用于隔离潜在恶意文件的重要安全机制。 $\textcolor{red}{是否同源由URL决定，URL由协议、域名、端口和路径组成，如果两个URL的协议、域名和端口相同，则表示他们同源}$
+
+解决跨域的第一种方式：$\textcolor{blue}{加入@CrossOrigin("http://localhost:8081") 注解}$
+
+```java
+@CrossOrigin("http://localhost:8081")  // 允许访问的请求
+@GetMapping("/user")
+    public User getUser(){
+        User user=new User();
+        user.setAge(19);
+        user.setName("breeze");
+        user.setEmail("www.breeze.com");
+        user.setBirthday(new Date())
+        return user;
+```
+
+第二种：$\textcolor{blue}{实现WebMvcConfigurer,重写addCorsMaapings方法}$
+
+```java
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer{
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("http:/localhost:8080").allowedOrigins("/*");
+    }
+
+```
+
+第三种:
+
+```java
+@Bean
+    CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source=new UrlBasedCorsConfigurationSource();
+        CorsConfiguration col=new CorsConfiguration();
+        col.addAllowedOrigin("http:/localhost:8080");
+        source.registerCorsConfiguration("/**",col);
+        return new CorsFilter(source);
+    }
+```
+
