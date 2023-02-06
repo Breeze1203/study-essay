@@ -207,6 +207,20 @@ server:
 
 ##### **springboot读取配置文件**
 
+导入外部的xml文件
+
+```java
+@ImportResource("classpath:bean.xml")
+public class JsonApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(JsonApplication.class, args);
+    }
+
+}
+
+```
+
 方法一：@Value注解
 
 ```java
@@ -468,6 +482,58 @@ spring.mvc.view.prefix=/
 spring.mvc.view.suffix=.jsp
 ```
 ------
+
+##### springboot使用拦截器
+
+```java
+public class MyInterceptor implements HandlerInterceptor {
+    // 方法返回false，请求不在执行下去
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        return true;
+    }
+
+    // 执行controller之后
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    // perHandle返回true才执行
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
+    }
+}
+
+```
+
+```java
+public class WebMvcConfig implements WebMvcConfigurer{
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**").excludePathPatterns("/hello");
+    }
+
+   
+```
+
+##### 关于CommandLineRunner
+
+```java
+
+@Component
+@Order(3)
+public class CommandLineRunner implements org.springframework.boot.CommandLineRunner {
+
+    // 当系统启动时 run方法被触发 参数就是main方法所传入的参数 是一个数组
+    // @Order(3)表示执行顺序，这个可以有多个
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("args"+ Arrays.toString(args));
+    }
+}
+```
 
 ##### **springboot整合junit**
 
