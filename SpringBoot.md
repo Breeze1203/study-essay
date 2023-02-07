@@ -565,6 +565,106 @@ public void testJunit(){
 ```
 若测试类所在包下的包名若与启动类所在包名一样，则注解@SpringBootText后面括号里面可以省略;
 
+##### springboot集成jdbctemplate
+
+1.加入依赖==>JDBC API  ,MYSQL Driver
+
+```java
+package com.example.jdbctemplate.service;
+
+import com.example.jdbctemplate.modul.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Service;
+
+import java.sql.*;
+import java.util.List;
+
+@Service
+public class UserService {
+
+    @Autowired
+    public JdbcTemplate jdbcTemplate;
+
+    public int addUser(User user) {
+        int result = jdbcTemplate.update("insert into user(username,address,id)values (?,?,?)", user.getUsername(), user.getAddress(), user.getId());
+        return result;
+    }
+
+    public int addUser2(User user) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        int result = jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement preparedStatement = con.prepareStatement("insert into user(username,address) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, user.getUsername());
+                preparedStatement.setString(2, user.getAddress());
+                return preparedStatement;
+            }
+        }, keyHolder);
+        return result;
+    }
+
+   /*查询   new RowMapper定义映射关系类*/
+
+   public List<User> getAlluser(){
+       List<User> users = jdbcTemplate.query("select * from user", new RowMapper<User>() {
+           @Override
+           public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+               /*这里的username，address要与实体类属性名一致*/
+               String username = rs.getString("username");
+               String address = rs.getString("address");
+               User user = new User();
+               user.setUsername(username);
+               user.setAddress(address);
+               return user;
+           }
+       });
+       return users;
+   }
+}
+
+```
+
+```java
+@SpringBootTest
+class JdbctemplateApplicationTests {
+    @Autowired
+    UserService userService;
+
+    @Test
+    public void text() {
+        User user = new User();
+        user.setUsername("李白");
+        user.setAddress("www.libai.com");
+        int i = userService.addUser2(user);
+        System.out.println(i);
+    }
+
+    @Test
+    public void text2() {
+        User user = new User();
+        user.setUsername("杜甫");
+        user.setAddress("www.dufu.com");
+        user.setId(5);
+        int i = userService.addUser(user);
+        System.out.println(i);
+    }
+
+    @Test
+    public void text3() {
+        List<User> alluser = userService.getAlluser();
+        System.out.println(alluser);
+    }
+}
+
+```
+
+
+
 ##### springboot集成mybatis
 
 1.首先导入所需要依赖的包:
