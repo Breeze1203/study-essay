@@ -362,3 +362,180 @@ $\textcolor{red}{第三个 Authentication 参数则保存了我们刚刚登录�
 .and()
 ```
 
+##### 3.Spring Security 5.4以后版本用法
+
+######  1.以上代码不是基于5.4版本以后，以下项目代码才是
+
+```java
+package com.example.springsecurity.WebSecurity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import java.io.PrintWriter;
+
+@Configuration
+public class WebSecurityConfig {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        // 返回一个不加密码的实例
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+
+    /*   基于内存  */
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername("javaboy").password("123").roles("admin").build());
+        inMemoryUserDetailsManager.createUser(User.withUsername("江南一点雨").password("123").roles("user").build());
+        return inMemoryUserDetailsManager;
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        WebSecurityCustomizer webSecurityCustomizer = new WebSecurityCustomizer() {
+            @Override
+            public void customize(WebSecurity web) {
+                web.ignoring().requestMatchers("/js/**", "/css/**", "/images/**");
+            }
+        };
+        return webSecurityCustomizer;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login.html")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler((request, response, authentication) -> {
+                    // 这里是登录成功的用户信息
+                    Object principal = authentication.getPrincipal();
+                    PrintWriter out = response.getWriter();
+                    /* new ObjectMapper().writeValueAsString(principal)
+                    * 这里时间将用户对象信息转为json格式response响应
+                    *  */
+                    out.write(new ObjectMapper().writeValueAsString(principal));
+                    out.flush();
+                    out.close();
+                })
+                .failureHandler((request, response, exception) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(exception.getMessage());
+                    out.flush();
+                    out.close();
+                })
+                .permitAll()
+                .and()
+                .csrf()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.print("尚未登录，请登录");
+                    out.flush();
+                    out.close();
+                });
+        return http.build();
+    }
+}
+
+```
+
+###### 2. 官网新版代码改动:
+
+在 Spring Security 5.7.0-M2 中，我们[弃用](https://github.com/spring-projects/spring-security/issues/10822)了`WebSecurityConfigurerAdapter`，因为我们鼓励用户转向基于组件的安全配置。
+
+为了帮助过渡到这种新的配置方式，我们编制了一份常见用例列表和建议的替代方案。
+
+在下面的示例中，我们遵循最佳实践，使用 Spring Security lambda DSL 和方法`HttpSecurity#authorizeHttpRequests`来定义我们的授权规则。如果您是 lambda DSL 的新手，可以阅读[这篇博](https://spring.io/blog/2019/11/21/spring-security-lambda-dsl)文。如果您想详细了解我们选择使用`HttpSecurity#authorizeHttpRequests`的原因
+
+配置 HttpSecurity
+
+在 Spring Security 5.4 中，我们[引入](https://github.com/spring-projects/spring-security/issues/8804)`HttpSecurity`了通过创建`SecurityFilterChain`bean进行配置的能力。
+
+`WebSecurityConfigurerAdapter`以下是使用HTTP Basic 保护所有端点的示例配置：
+
+```java
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests((authz) -> authz
+                .anyRequest().authenticated()
+            )
+            .httpBasic(withDefaults());
+    }
+
+}
+```
+
+展望未来，推荐的做法是注册一个`SecurityFilterChain`bean：
+
+```java
+@Configuration
+public class SecurityConfiguration {
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/ignore1", "/ignore2");
+    }
+
+}
+```
+
+配置网络安全
+
+在 Spring Security 5.4 中，我们还[引入](https://github.com/spring-projects/spring-security/issues/8978)了`WebSecurityCustomizer`.
+
+是`WebSecurityCustomizer`一个回调接口，可用于自定义`WebSecurity`.
+
+下面是一个示例配置，它使用`WebSecurityConfigurerAdapter`忽略匹配`/ignore1`or的请求`/ignore2`：
+
+```java
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/ignore1", "/ignore2");
+    }
+
+}
+```
+
+展望未来，推荐的做法是注册一个`WebSecurityCustomizer`bean：
+
+```java
+@Configuration
+public class SecurityConfiguration {
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/ignore1", "/ignore2");
+    }
+
+}
+```
+
+以下改动就不一一列举：可以查看上面的[官网链接](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
+
