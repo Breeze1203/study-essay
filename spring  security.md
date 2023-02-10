@@ -539,3 +539,145 @@ public class SecurityConfiguration {
 
 以下改动就不一一列举：可以查看上面的[官网链接](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
 
+###### 3.认证
+
+由于 Spring Security 支持多种数据源，例如内存、数据库、LDAP 等，这些不同来源的数据被共同封装成了一个 UserDetailService 接口，任何实现了该接口的对象都可以作为认证数据源。
+
+因此我们还可以通过重写 WebSecurityConfigurerAdapter 中的 userDetailsService 方法来提供一个 UserDetailService 实例进而配置多个用户：
+
+```java
+ @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername("libai").password("1234").roles("admin").build());
+        inMemoryUserDetailsManager.createUser(User.withUsername("dufu").password("123").roles("user").build());
+        return inMemoryUserDetailsManager;
+    }
+```
+
+接下来我们准备三个测试接口
+
+```java
+@RestController
+
+public class HelloController {
+
+    @GetMapping("/hello")
+
+    public String hello() {
+
+        return "hello";
+
+    }
+
+    @GetMapping("/admin/hello")
+
+    public String admin() {
+
+        return "admin";
+
+    }
+
+    @GetMapping("/user/hello")
+
+    public String user() {
+
+        return "user";
+
+    }
+
+}
+
+```
+
+1. /hello 是任何人都可以访问的接口
+2. /admin/hello 是具有 admin 身份的人才能访问的接口
+3. /user/hello 是具有 user 身份的人才能访问的接口
+4. 所有 user 能够访问的资源，admin 都能够访问
+
+```java
+http.authorizeRequests()
+        .antMatchers("/admin/**").hasRole("admin")
+        .antMatchers("/user/**").hasRole("user")
+        .anyRequest().authenticated()
+        .and()
+        ...
+        ...
+```
+
+######4. 授权
+
+要实现所有 user 能够访问的资源，admin 都能够访问，这涉及到另外一个知识点，叫做角色继承。
+
+这在实际开发中非常有用。
+
+上级可能具备下级的所有权限，如果使用角色继承，这个功能就很好实现，我们只需要在 SecurityConfig 中添加如下代码来配置角色继承关系即可
+
+```java
+@Bean
+
+RoleHierarchy roleHierarchy() {
+
+    RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+
+    hierarchy.setHierarchy("ROLE_admin > ROLE_user");
+
+    return hierarchy;
+
+}
+
+```
+
+###### 5.内存认证(将用户信息放在内存中)
+
+```java
+@Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User.builder()
+                .username("javaboy")
+                .password("1234")
+                .roles("USER")
+                .build();
+        UserDetails admin = User.builder()
+                .username("libai")
+                .password("123")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
+    }
+```
+
+
+
+###### 6.JDBC认证(将用户信息存入数据库中)
+
+$\textcolor{red}{全局搜索user.ddl  如果是mysql数据库将varchar_ignorecase子段改为varchar}$
+
+```mysql
+create table users(username varchar_ignorecase(50) not null primary key,password varchar_ignorecase(500) not null,enabled boolean not null);
+create table authorities (username varchar_ignorecase(50) not null,authority varchar_ignorecase(50) not null,constraint fk_authorities_users foreign key(username) references users(username));
+create unique index ix_auth_username on authorities (username,authority);
+```
+
+配置数据源
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/springsecurity?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+spring.datasource.password=
+spring.datasource.username=root
+```
+
+```java
+@Bean
+public UserDetailsManager users(DataSource dataSource) {
+    JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+    if(!manager.userExists("javaboy")){
+        manager.createUser(User.builder().username("javaboy").password("1234").roles("ADMIN").build());
+    }
+    if(!manager.userExists("libai")){
+        manager.createUser(User.builder().username("libai").password("123").roles("USER").build());
+    }
+    return manager;
+}
+```
