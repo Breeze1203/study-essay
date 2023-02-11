@@ -681,3 +681,29 @@ public UserDetailsManager users(DataSource dataSource) {
     return manager;
 }
 ```
+###### 7.RememberMe原理
+
+右键检查元素发现用户登录后，$\textcolor{red}{header里面带有}$rememberme=amF2YWJveToxNjc3MzIzNTM5MDg4OlNIQTI1NjplYjI3MTM5MjE0MWUyMTc5MzQ5NjkxM2E4ZGJhMzJjMDI2NTE2ZTUwMjY3N2RkZTAzMzY4ZTVhOWFhM2JmYWVk
+
+到服务端，我们解码看看：
+
+```java
+@Test
+    void contextLoads() throws UnsupportedEncodingException {
+
+        String s = new String(Base64.getDecoder().decode("amF2YWJveToxNjc3MzIzNTM5MDg4OlNIQTI1Njp" +
+                "lYjI3MTM5MjE0MWUyMTc5MzQ5NjkxM2E4ZGJhMzJjMDI2NTE2ZTUwMjY3N2RkZTAzMzY4ZTVhOWFhM2JmYWVk"), "utf-8");
+        System.out.println("s"+s);
+    }
+```
+
+运行结果:
+
+javaboy:1677323539088:SHA256:eb271392141e21793496913a8dba32c026516e502677dde03368e5a9aa3bfaed
+
+发现是用户名加+时间戳+密码，只不过密码被加密
+
+
+
+
+
