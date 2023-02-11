@@ -682,7 +682,7 @@ class JdbctemplateApplicationTests {
 
 2.可以使用插件(mybatis逆向工程生成映射文件及接口)
 
-**注意:**$\textcolor{Red}{生成的xml文件如果在java目录下，要用  .  代替  /}$
+**注意:**$\textcolor{Red}{生成的xml文件如果在java目录下，要用  /  代替  .}$
 
 ```properties
 # 注册映射文件
