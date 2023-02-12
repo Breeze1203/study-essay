@@ -703,7 +703,244 @@ javaboy:1677323539088:SHA256:eb271392141e21793496913a8dba32c026516e502677dde0336
 
 发现是用户名加+时间戳+密码，只不过密码被加密
 
+###### 8.springsecurity结合mybatis做登录验证
+
+创建User类，该类实现UserDetail接口
+
+```java
+package com.example.springmybatis.model;
 
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class User implements UserDetails {
+
+    private int id;
+    private String username;
+
+    private String password;
+    private String role;
+
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities=new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_admin"));
+        return authorities;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+}
+
+```
+
+实现mybatis查询
+
+```properties
+mybatis.mapper-locations=classpath:com/example/springmybatis/mapper/user.xml
+mybatis.type-aliases-package=com.example.springmybatis.model.User
+
+
+spring.datasource.url=jdbc:mysql://localhost:3306/springmybatis
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springmybatis.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.springmybatis.model.User">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+    </resultMap>
+    <insert id="insertUser" parameterType="com.example.springmybatis.model.User">
+        insert into user (username, password, role)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
+    </insert>
+    <select id="getUserByUsername" resultType="com.example.springmybatis.model.User" parameterType="String">
+        select * from user where username=#{username}
+    </select>
+</mapper>
+```
+
+```java
+package com.example.springmybatis.mapper;
+
+
+import org.apache.ibatis.annotations.Mapper;
+import com.example.springmybatis.model.User;
+import org.springframework.stereotype.Repository;
+
+
+@Mapper
+@Repository("student")
+public interface UserMapper {
+
+    public int insertUser(User user);
+    public User getUserByUsername(String username);
+}
+
+```
+
+```java
+package com.example.springmybatis.websecurity;
+
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        /* 这里采用不加密 因为数据库存储的密码是明文存储 */
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .requestMatchers("/admin/**").hasRole("admin")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
+                .and()
+                .csrf()
+                .disable();
+
+        return http.build();
+    }
+}
+
+```
+
+```java
+package com.example.springmybatis.service;
+
+
+import com.example.springmybatis.mapper.UserMapper;
+import com.example.springmybatis.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+@Configuration
+public class UserService implements UserDetailsService {
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userMapper.getUserByUsername(username);
+        if(user==null){
+            throw new UsernameNotFoundException("用户不存在");
+        }
+        return user;
+    }
+}
+```
+
+测试
+
+```java
+package com.example.springmybatis.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @GetMapping("/hello")
+    public String hello(){
+        return "hello";
+    }
+
+    @GetMapping("/admin/hello")
+    public String login(){
+        return "hello spring security";
+    }
+}
+```
 
