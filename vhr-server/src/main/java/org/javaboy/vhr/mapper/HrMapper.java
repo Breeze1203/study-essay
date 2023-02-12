@@ -1,17 +1,11 @@
 package org.javaboy.vhr.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.javaboy.vhr.bean.Hr;
+import org.springframework.stereotype.Service;
 
+@Mapper
+@Service("Hr")
 public interface HrMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Hr record);
-
-    int insertSelective(Hr record);
-
-    Hr selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Hr record);
-
-    int updateByPrimaryKey(Hr record);
+    Hr findHrByUsername(String password);
 }
