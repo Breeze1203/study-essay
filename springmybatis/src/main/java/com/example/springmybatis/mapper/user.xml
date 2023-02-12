@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springmybatis.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.springmybatis.model.User">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+    </resultMap>
+    <insert id="insertUser" parameterType="com.example.springmybatis.model.User">
+        insert into user (username, password, role)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
+    </insert>
+    <select id="getUserByUsername" resultType="com.example.springmybatis.model.User" parameterType="String">
+        select * from user where username=#{username}
+    </select>
+</mapper>
