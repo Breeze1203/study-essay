@@ -27,6 +27,54 @@
 
 第二种：后端解决
 
+$\textcolor{red}{Spring Framework[为 CORS 提供一流的支持,CORS 必须在 Spring Security 之前处理，因为飞行前请求不包含任何 cookie}$（即`JSESSIONID`. 如果请求不包含任何 cookie 并且 Spring Security 是第一个，则请求确定用户未通过身份验证（因为请求中没有 cookie）并拒绝它
+
+确保首先处理 CORS 的最简单方法是使用`CorsFilter`. `CorsFilter`用户可以通过提供`CorsConfigurationSource`使用以下内容的与 Spring Security集成
+
+```java
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			// by default uses a Bean by the name of corsConfigurationSource
+			.cors(withDefaults())
+			...
+		return http.build();
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+}
+```
+
+如果您使用 Spring MVC 的 CORS 支持，则可以省略指定`CorsConfigurationSource`并且 Spring Security 使用提供给 Spring MVC 的 CORS 配置：
+
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	http
+		// if Spring MVC is on classpath and no CorsConfigurationSource is provided,
+		// Spring Security will use CORS configuration provided to Spring MVC
+		.cors(withDefaults())
+		...
+	return http.build();
+}
+}
+```
 后端框架也很多，实现原理差不多，都是修改下相应头。以常用的Java SpringCloud 和nodejs koa 框架为例。
 
 Http 协议CORS头
