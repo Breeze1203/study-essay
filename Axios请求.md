@@ -162,6 +162,32 @@ axios.interceptors.response.use(function (response) {
 import axios from "axios"
 import querystring from "querystring";
 
+const errorHandle = (status,info) => {
+    switch(status){
+        case 400:
+            console.log("语义有误");
+            break;
+        case 401:
+            console.log("服务器认证失败");
+            break;
+        case 403:
+            console.log("服务器拒绝访问");
+            break;
+        case 404:
+            console.log("地址错误");
+            break;
+        case 500:
+            console.log("服务器遇到意外");
+            break;
+        case 502:
+            console.log("服务器无响应");
+            break;
+        default:
+            console.log(info);
+            break;
+    }
+}
+
 // 创建一个axios的实例
 const instance = axios.create({
     // 网络请求的公共配置信息
@@ -284,5 +310,44 @@ export default {
 <style>
 
 </style>
+```
+
+#### 做项目中遇到的问题:
+
+###### 引入element ui图标:
+
+全局引入：
+
+```javascript
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+ 
+const app = createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+```
+
+局部引入：
+
+```javascript
+<script>
+import { ArrowDown } from '@element-plus/icons-vue'
+export default {
+  name: "App",
+  components: {
+    ArrowDown,
+    
+  }
+}
+</script>
+```
+
+###### 各个数据库的关联信息:
+
+```properties
+menu 的字段id对应字段parentId
+表hr_role的hrid对应表hr的id
+表hr_role的rid对应表menu_role的rid
+menu_role的rid对应menu的id
 ```
 
