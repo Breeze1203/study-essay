@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import request from '@/api/request';
+
 export default {
     name: 'login',
     data() {
@@ -40,7 +42,15 @@ export default {
         submit() {
             this.$refs.LoginForm.validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                   request.login(this.LoginForm.username,this.LoginForm.password).then(success=>{
+                    if(success){
+                        console.log(success.data);
+                        // 登录成功将用户信息存到session中 将对象类型转为字符串
+                        window.sessionStorage.setItem("user",JSON.stringify(success.data.object));
+                        this.$router.replace('/Home')
+
+                    }
+                   })
                 } else {
                     this.$message.error('请输入所有字段')
                     return false;

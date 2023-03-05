@@ -1,17 +1,15 @@
 package org.javaboy.vhr.mapper;
 
 import org.javaboy.vhr.bean.Menu;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
+@Repository("MenuMapper")
 public interface MenuMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Menu record);
-
-    int insertSelective(Menu record);
-
-    Menu selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Menu record);
-
-    int updateByPrimaryKey(Menu record);
+    /*根据当前登录用户查询用户菜单*/
+    List<Menu> getMenuByHrId(Integer id);
 }

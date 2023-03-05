@@ -3,6 +3,7 @@ package org.javaboy.vhr.service;
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.Hr;
 import org.javaboy.vhr.mapper.HrMapper;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class HrService implements UserDetailsService {
     @Resource(name = "Hr")
     HrMapper hrMapper;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
