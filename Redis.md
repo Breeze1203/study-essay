@@ -618,3 +618,13 @@ OK
 2) "130"
 ```
 
+###### 远程连接redis
+
+redis默认不支持远程连接，修改配置文件(redis.config)
+
+注销 # bind 127.0.0.1
+
+将protected mode 设置为no
+
+如果还不行就关闭防火墙
+
