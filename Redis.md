@@ -32,7 +32,7 @@ tar -zvxf  '解压'
 
 ##### 五种数据类型:
 
-###### String:
+##### String:
 
 String是Redis里边最简单的一种数据结构。在redis中，所有的key都是字符串，但是不同的key对应的value则具备不同的数据结构，我们所说的五种不同的数据类型，主要是指value的数据类型不同。
 
@@ -185,7 +185,7 @@ OK
 "com.javaboy"
 ```
 
-##### bit
+bit
 
 在redis中，字符串都是以二进制形式存储的，bit相关的命令都是对二进制操作的
 
@@ -276,7 +276,7 @@ OK
   (10.06s)
   ```
 
-  ##### set
+  ###### set
 
   - sadd  添加元素到一个key中
 
@@ -389,7 +389,7 @@ OK
   - sunion 求并集
   - sunionstore 求并集并将结果保存到新的集合中
 
-  ##### hash
+  ##### Hash
 
   在hash结构中，key式一个字符串，value则是一个key/value的键值对
 
@@ -627,4 +627,100 @@ redis默认不支持远程连接，修改配置文件(redis.config)
 将protected mode 设置为no
 
 如果还不行就关闭防火墙
+
+```xml
+<dependency>
+   <groupId>redis.clients</groupId>
+   <artifactId>jedis</artifactId>
+   <version>3.2.0</version>
+   <type>jar</type>
+   <scope>compile</scope>
+</dependency>
+```
+
+```java
+public class MyJedis {
+    public static void main(String[] args) {
+        // 1.构造jedis对象,因为这里使用的是默认端口
+        Jedis jedis=new Jedis("192.168.239.130",6379);
+        // 2.密码认证
+        jedis.auth("3548297839");
+        // 3.测试是否连接成功
+        String str=jedis.ping();
+        System.out.println(str);
+    }
+}
+
+```
+
+###### 连接池连接
+
+```java
+package org.jedis.demo;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+/**
+ * @author Breeze
+ * @address Shenzhen China
+ * @email 3548297839@qq.com
+ */
+public class JedisPoolText {
+    public static void main(String[] args) {
+        JedisPool pool = new JedisPool("192.168.239.130", 6379);
+        Jedis resource = pool.getResource();
+        resource.auth("javaboy");
+        String ping = resource.ping();
+        System.out.println(ping);
+        resource.close();
+    }
+}
+
+```
+
+##### 分布式锁
+
+目的:限制程序的并发执行
+
+实现原理:进来一个线程先占位，当别的线程进来操作是，发现已有人占位了，就会放弃或者稍后再试
+
+在redis中，占位一般使用setnx指令，先进来的线程先占位，线程的操作执行完成后，在调用del指令释放位置
+
+ 
+
+```java
+package org.jedis.demo;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+/**
+ * @author Breeze
+ * @address Shenzhen China
+ * @email 3548297839@qq.com
+ */
+public class JedisPoolText {
+    public static void main(String[] args) {
+        JedisPool pool = new JedisPool("192.168.239.130", 6379);
+        Jedis jedis = pool.getResource();
+        jedis.auth("3548297839");
+        Long setnx = jedis.setnx("k1", "v1");
+        if(setnx==1){
+            // 没人占位
+            jedis.set("k","张三");
+            String k = jedis.get("k");
+            System.out.println(k);
+        }else {
+            jedis.del("k1");
+        }
+        String ping = jedis.ping();
+        System.out.println(ping);
+        jedis.close();
+    }
+}
+
+```
+
+这样改造之后，还有一个问题，就是在获取锁和设置过期时间之间如果如果服务器突然挂掉了，这个时候锁被占用，无法及时得到释放，也会造成死锁，因为获取锁和设置过期时间是两个操作，不具备原子性。
 
