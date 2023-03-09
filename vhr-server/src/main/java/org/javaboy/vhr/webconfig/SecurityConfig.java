@@ -14,12 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 
 @Configuration
@@ -31,18 +27,6 @@ public class SecurityConfig {
     }
 
     /*配置跨域问题*/
-   @Bean
-   CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-   }
-
-
     @Bean
     DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic()
@@ -52,7 +36,7 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/doLogin")
+                .loginProcessingUrl("/api/doLogin")
                 .successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     Hr hr = (Hr) authentication.getPrincipal();
@@ -84,7 +68,7 @@ public class SecurityConfig {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/api/logout")
                 .clearAuthentication(true)
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
@@ -92,8 +76,6 @@ public class SecurityConfig {
                     StatusUtils statusUtils=new StatusUtils("注销成功",200);
                     out.print(new ObjectMapper().writeValueAsString(statusUtils));
                 })
-                .and()
-                .cors()
                 .and()
                 .csrf()
                 .disable();

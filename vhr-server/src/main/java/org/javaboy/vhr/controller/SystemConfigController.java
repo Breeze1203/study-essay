@@ -14,7 +14,7 @@ public class SystemConfigController {
     @Autowired
     MenuService menuService;
 
-    @PostMapping("/menu")
+    @PostMapping("/api/menu")
     public List<Menu> allMenu(){
         System.out.println("/system/menu");
         return menuService.getMenuByHrId();
