@@ -64,7 +64,9 @@ export default {
                     .then(() => {
                         // 注销登录 删除session 跳转到登录界面
                         window.sessionStorage.removeItem("user");
-                        request.logout();
+                        request.logout().then(request=>{
+                            console.log(request.data);
+                        });
                         this.$router.replace("/");
                     })
                     .catch(() => {

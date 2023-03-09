@@ -1,5 +1,4 @@
 import instace from "../utils/http";
-import base from "./path";
 
 
 const request={
@@ -7,7 +6,7 @@ const request={
     login(username,password){
         return instace({
             method:'post',
-            url:base.baseUrl+'/doLogin',
+            url:'/api/doLogin',
             contentType:'"application/json"',
             data:{
                 username:username,
@@ -18,14 +17,14 @@ const request={
     logout(){
         return instace({
             method:'post',
-            url:base.baseUrl+'/logout',
+            url:'/api/logout',
             contentType:'"application/json"'
         })
     },
     menuinit(){
         return instace({
             method:'post',
-            url:base.baseUrl+'/menu',
+            url:'/api/menu',
             contentType:'"application/json"'
         })
     }

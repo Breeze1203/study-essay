@@ -31,7 +31,7 @@ const errorHandle = (status, info) => {
 // 创建一个axios的实例
 const instace = axios.create({
     // 网络请求的公共配置信息
-    timeout: 5000
+    timeout: 5000,
 })
 
 // 拦截器(发送请求之前)

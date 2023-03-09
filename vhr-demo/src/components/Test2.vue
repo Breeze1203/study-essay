@@ -11,7 +11,7 @@ export default{
     methods:{
         mens(){
             request.menuinit().then(resp=>{
-                console.log(resp);
+                console.log(resp.data);
             })
         }
     }
