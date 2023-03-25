@@ -25,6 +25,17 @@ public class Menu {
 
     private Meta meta;
 
+    // 查询角色 菜单项需要哪些角色
+    private List<Role> role;
+
+    public List<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(List<Role> role) {
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }

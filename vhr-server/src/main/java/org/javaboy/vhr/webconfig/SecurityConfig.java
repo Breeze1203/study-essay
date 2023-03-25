@@ -3,7 +3,9 @@ package org.javaboy.vhr.webconfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.javaboy.vhr.bean.Hr;
+import org.javaboy.vhr.controller.MyDecisionManager;
 import org.javaboy.vhr.utils.StatusUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -21,6 +23,10 @@ import java.io.PrintWriter;
 @Configuration
 public class SecurityConfig {
 
+    @Autowired
+    MyFilter myFilter;
+    @Autowired
+    MyDecisionManager myDecisionManager;
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

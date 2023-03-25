@@ -17,7 +17,13 @@ public class MenuService {
     MenuMapper menuMapper;
 
     public List<Menu> getMenuByHrId(){
+        // 从当前登录用户提取用户登录信息
         return menuMapper.
                 getMenuByHrId((((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
+
+    public List<Menu> getAllMenusWithRole(){
+        return menuMapper.getAllMenusWithRole();
+    }
+
 }

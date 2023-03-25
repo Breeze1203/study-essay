@@ -33,7 +33,8 @@
         </collection>
     </resultMap>
 
-    <select id="getMenuByHrId"  resultMap="BaseResultMap2" parameterType="int">
+
+    <select id="getMenuByHrId" resultMap="BaseResultMap2" parameterType="int">
         select m1.*,
                m2.id          as id2,
                m2.url         as url2,
@@ -54,5 +55,22 @@
           and hrr.rid = mr.rid
           and mr.mid = m2.id
           and m2.enabled = 1;
+    </select>
+
+    <resultMap id="MenuWithRole" type="org.javaboy.vhr.bean.Menu" extends="BaseResultMap">
+        <collection property="roles" ofType="org.javaboy.vhr.bean.Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="rnameZh"/>
+        </collection>
+    </resultMap>
+    <select id="getAllMenusWithRole" resultMap="MenuWithRole">
+        select m.*, r.id, r.name as rname, r.nameZh as rnameZh
+        from menu m,
+             menu_role mr,
+             role r
+        where m.id = mr.mid
+          and mr.rid = r.id
+        order by m.id
     </select>
 </mapper>

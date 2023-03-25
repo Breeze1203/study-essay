@@ -5,24 +5,14 @@ const routes = [
   {
     path: '/',
     name: 'login',
+    hidden:false,
     component: () => import('../views/Login.vue')
   },
   {
     path: '/Home',
     name: 'Home',
-    component: () => import('../components/Home.vue'),
-    children: [
-      {
-        path: '/test1',
-        name: '导航一',
-        component: () => import('../components/Test1.vue')
-      }
-      , {
-        path: '/test2',
-        name: '导航二',
-        component: () => import('../components/Test2.vue')
-      }
-    ]
+    hidden:true,
+    component: () => import('../components/Home.vue')
   }
 ]
 

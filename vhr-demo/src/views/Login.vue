@@ -9,7 +9,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item prop="password"><el-input type="password" v-model="LoginForm.password" auto-complete="off"
-                    placeholder="请输入密码"></el-input>
+                    placeholder="请输入密码" @keydown.enter.native="submit"></el-input>
             </el-form-item>
             <el-form-item class="loginremember">
                 <el-checkbox label="记住密码" v-model="check"></el-checkbox>
@@ -21,6 +21,7 @@
 
 <script>
 import request from '@/api/request';
+
 
 export default {
     name: 'login',
@@ -47,8 +48,7 @@ export default {
                         console.log(success.data);
                         // 登录成功将用户信息存到session中 将对象类型转为字符串
                         window.sessionStorage.setItem("user",JSON.stringify(success.data.object));
-                        this.$router.replace('/Home')
-
+                        this.$router.replace('/Home');
                     }
                    })
                 } else {

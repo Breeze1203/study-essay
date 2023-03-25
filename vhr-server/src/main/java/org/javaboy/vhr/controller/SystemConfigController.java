@@ -6,7 +6,8 @@ import org.javaboy.vhr.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 public class SystemConfigController {
@@ -16,7 +17,6 @@ public class SystemConfigController {
 
     @PostMapping("/api/menu")
     public List<Menu> allMenu(){
-        System.out.println("/system/menu");
         return menuService.getMenuByHrId();
     }
 }

@@ -12,4 +12,7 @@ public interface MenuMapper {
 
     /*根据当前登录用户查询用户菜单*/
     List<Menu> getMenuByHrId(Integer id);
+
+
+    List<Menu> getAllMenusWithRole();
 }
