@@ -31,7 +31,7 @@
             <el-breadcrumb-item :to="{ path: '/Home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>{{this.$router.currentRoute.value.name}}</el-breadcrumb-item>
           </el-breadcrumb>
-          <router-view/>
+          <router-view class="mainView"/>
         </el-main>
       </el-container>
     </el-container>
@@ -93,6 +93,9 @@ export default {
 </script>
 
 <style>
+.mainView{
+  margin-top: 10px;
+}
 .header {
   background-color: rgba(56, 150, 230, 0.87);
   display: flex;
