@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-// 引入组件
+// 引入组件 部分管理等e
 import DepMana from "../sys/basic/DepMana.vue"
 import EcMana from "../sys/basic/EcMana.vue"
 import jobMana from "../sys/basic/JobMana.vue"
