@@ -28,12 +28,34 @@ const request={
             contentType:'"application/json"'
         })
     },
-    positionInin(){
+    positionInit(){
         return instace({
             method:'get',
             url:'/api/sys/basic/pos',
             contentType:'"application/json"'
         })
+    },
+    // 删除职位
+    deletePositionById(id){
+        return instace({
+            method:'post',
+            url:'/api/sys/basic/deletePositionById',
+            contentType:'"application/json"',
+            data:{
+                id:id
+            }
+        })
+    },
+    // 添加职位
+    addPosition(name) {
+      return instace({
+          method:'post',
+          url:'/api/sys/basic//addPosition',
+          contentType:'"application/json"',
+          data:{
+              name:name
+          }
+      })
     }
 }
 
