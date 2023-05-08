@@ -22,8 +22,8 @@ public class PositionService {
         return positionMapper.getAllPosition();
     }
 
-    public int insertPosition(Position position){
-        return positionMapper.insert(position);
+    public int insertPos(Position position){
+        return positionMapper.insertSelective(position);
     }
 
     public int deleteByPrimaryKey(Integer id){
