@@ -41,7 +41,7 @@
 <script>
 import {ElMessage, ElMessageBox} from 'element-plus';
 import request from '@/api/request';
-import { ArrowRight } from '@element-plus/icons-vue';
+
 
 export default {
   name: 'Home',

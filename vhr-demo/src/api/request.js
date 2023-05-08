@@ -27,6 +27,13 @@ const request={
             url:'/api/menu',
             contentType:'"application/json"'
         })
+    },
+    positionInin(){
+        return instace({
+            method:'get',
+            url:'/api/sys/basic/pos',
+            contentType:'"application/json"'
+        })
     }
 }
 
