@@ -134,4 +134,23 @@ public class Menu {
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", path='" + path + '\'' +
+                ", component='" + component + '\'' +
+                ", name='" + name + '\'' +
+                ", iconCls='" + iconCls + '\'' +
+                ", keepAlive=" + keepAlive +
+                ", requireAuth=" + requireAuth +
+                ", parentId=" + parentId +
+                ", enabled=" + enabled +
+                ", meta=" + meta +
+                ", role=" + role +
+                ", children=" + children +
+                '}';
+    }
 }

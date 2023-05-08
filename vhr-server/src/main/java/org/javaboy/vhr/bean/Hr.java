@@ -1,9 +1,14 @@
 package org.javaboy.vhr.bean;
 
+import org.javaboy.vhr.mapper.HrMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /*用户类*/
 public class Hr implements UserDetails {
@@ -27,6 +32,15 @@ public class Hr implements UserDetails {
 
     private String remark;
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    private List<Role> roles;
     public Integer getId() {
         return id;
     }
@@ -145,6 +159,7 @@ public class Hr implements UserDetails {
                 ", password='" + password + '\'' +
                 ", userface='" + userface + '\'' +
                 ", remark='" + remark + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }

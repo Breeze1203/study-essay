@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="org.javaboy.vhr.bean.Position" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
     <result column="enabled" property="enabled" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -23,7 +23,7 @@
   <insert id="insert" parameterType="org.javaboy.vhr.bean.Position" >
     insert into position (id, name, createDate, 
       enabled)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{enabled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.javaboy.vhr.bean.Position" >
@@ -79,4 +79,7 @@
       enabled = #{enabled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getAllPosition" resultType="org.javaboy.vhr.bean.Position">
+    select * from position
+  </select>
 </mapper>
