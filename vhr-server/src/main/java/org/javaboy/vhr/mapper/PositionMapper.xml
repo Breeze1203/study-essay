@@ -35,7 +35,7 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="createdate != null" >
+      <if test="createDate != null" >
         createDate,
       </if>
       <if test="enabled != null" >
@@ -49,8 +49,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null" >
-        #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="enabled != null" >
         #{enabled,jdbcType=BIT},
@@ -63,8 +63,8 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null" >
-        createDate = #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="enabled != null" >
         enabled = #{enabled,jdbcType=BIT},
@@ -75,7 +75,7 @@
   <update id="updateByPrimaryKey" parameterType="org.javaboy.vhr.bean.Position" >
     update position
     set name = #{name,jdbcType=VARCHAR},
-      createDate = #{createdate,jdbcType=TIMESTAMP},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
       enabled = #{enabled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
