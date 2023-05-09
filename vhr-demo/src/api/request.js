@@ -50,12 +50,24 @@ const request={
     addPosition(name) {
       return instace({
           method:'post',
-          url:'/api/sys/basic//addPosition',
+          url:'/api/sys/basic/addPosition',
           contentType:'"application/json"',
           data:{
               name:name
           }
       })
+    },
+    // 修改职位
+    update(id,name) {
+        return instace({
+            method:'post',
+            url:'/api/sys/basic/updatePosition',
+            contentType:'"application/json"',
+            data:{
+                id:id,
+                name:name
+            }
+        })
     }
 }
 
