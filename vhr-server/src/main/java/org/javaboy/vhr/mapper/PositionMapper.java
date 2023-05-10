@@ -9,15 +9,13 @@ import java.util.List;
 public interface PositionMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Position record);
     //查询所有
     List<Position> getAllPosition();
 
     int insertSelective(Position record);
 
-    Position selectByPrimaryKey(Integer id);
-
     int updateByPrimaryKeySelective(Position record);
 
-    int updateByPrimaryKey(Position record);
+    // 批量删除
+    int deleteByIds(Integer[] ids);
 }
