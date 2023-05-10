@@ -3,8 +3,6 @@ package org.javaboy.vhr.service;
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.Position;
 import org.javaboy.vhr.mapper.PositionMapper;
-import org.javaboy.vhr.utils.StatusUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +35,10 @@ public class PositionService {
     // 修改职位
     public int upDatePosition(Position position){
        return positionMapper.updateByPrimaryKeySelective(position);
+    }
+
+    // 批量删除
+    public int deleteByIds(Integer[] ids){
+        return positionMapper.deleteByIds(ids);
     }
 }

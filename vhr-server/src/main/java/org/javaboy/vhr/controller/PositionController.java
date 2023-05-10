@@ -69,4 +69,17 @@ public class PositionController {
         }
         return statusUtils;
     }
+
+    // 批量删除
+    @PostMapping("/deleteByIds")
+    public StatusUtils deleteByIds(@RequestParam("ids") Integer[] ids){
+        int i = positionService.deleteByIds(ids);
+        StatusUtils statusUtils = new StatusUtils();
+        if(i==ids.length){
+            statusUtils.setMessage("删除成功");
+        }else {
+            statusUtils.setMessage("删除失败");
+        }
+        return statusUtils;
+    }
 }
