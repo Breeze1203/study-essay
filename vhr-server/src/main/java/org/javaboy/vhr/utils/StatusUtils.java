@@ -42,6 +42,10 @@ public class StatusUtils {
         this.message = message;
     }
 
+    public StatusUtils(String message) {
+        this.message = message;
+    }
+
     public Integer getStatus() {
         return status;
     }
