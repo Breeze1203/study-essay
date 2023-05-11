@@ -15,6 +15,13 @@
       <el-table-column prop="id" label="编号" width="180"/>
       <el-table-column prop="name" label="职位" width="180"/>
       <el-table-column prop="createDate" label="创建时间"/>
+      <!--      理解scope-->
+      <el-table-column label="状态" width="100">
+        <template #default="scope">
+          <el-tag type="success" v-if="scope.row.enabled">已启用</el-tag>
+          <el-tag type="danger" v-else="scope.row.enabled">已禁用</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
@@ -75,7 +82,7 @@ export default {
         tagPosition: '',
         id: '',
         // 批量删除的ids
-        ids:[]
+        ids: []
       }
     }
   },
@@ -113,7 +120,7 @@ export default {
     // 删除职位
     handleDelete(index, data) {
       ElMessageBox.confirm(
-          '此操作将删除职位' + data.name + ',是否继续?',
+          '此操作将删除职位【' + data.name + '】,是否继续?',
           {
             distinguishCancelAndClose: true,
             confirmButtonText: '确定',
@@ -167,12 +174,35 @@ export default {
       for (let i = 0; i < val.length; i++) {
         this.pos.ids.push(val[i].id);
       }
-      console.log(this.pos.ids);
     }
     ,
-    deleteIds(){
-      console.log(this.pos.ids);
-  }
+    deleteIds() {
+      if (this.pos.ids.length >= 1) {
+        ElMessageBox.confirm(
+            '此操作将删除' + this.pos.ids.length + "条数据",
+            {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }
+        )
+            .then(() => {
+              request.deleteIds(this.pos.ids).then(res => {
+                if (res) {
+                  request.positionInit().then(res => {
+                    this.pos.tableData = res.data;
+                  })
+                }
+              })
+            })
+            .catch(() => {
+              ElMessage({
+                type: 'info',
+                message: '取消操作',
+              })
+            })
+      }
+    }
   }
 }
 </script>
