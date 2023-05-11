@@ -1,5 +1,7 @@
 package org.javaboy.vhr.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class JObLevel {
@@ -7,14 +9,31 @@ public class JObLevel {
 
     private String name;
 
-    private String titlelevel;
+    private String titleLevel;
 
-    private Date createdate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone ="Asia/ShangHai")
+    private Date createDate;
 
     private Boolean enabled;
 
     public Integer getId() {
         return id;
+    }
+
+    public String getTitleLevel() {
+        return titleLevel;
+    }
+
+    public void setTitleLevel(String titleLevel) {
+        this.titleLevel = titleLevel;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public void setId(Integer id) {
@@ -29,27 +48,41 @@ public class JObLevel {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getTitlelevel() {
-        return titlelevel;
-    }
-
-    public void setTitlelevel(String titlelevel) {
-        this.titlelevel = titlelevel == null ? null : titlelevel.trim();
-    }
-
-    public Date getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
 
     public Boolean getEnabled() {
         return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public JObLevel() {
+    }
+
+    @Override
+    public String toString() {
+        return "JObLevel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", titleLevel='" + titleLevel + '\'' +
+                ", createDate=" + createDate +
+                ", enabled=" + enabled +
+                '}';
+    }
+
+    public JObLevel(String name, String titleLevel, Date createDate, Boolean enabled) {
+        this.name = name;
+        this.titleLevel = titleLevel;
+        this.createDate = createDate;
+        this.enabled = enabled;
+    }
+
+    public JObLevel(Integer id, String name, String titleLevel, Date createDate, Boolean enabled) {
+        this.id = id;
+        this.name = name;
+        this.titleLevel = titleLevel;
+        this.createDate = createDate;
         this.enabled = enabled;
     }
 }
