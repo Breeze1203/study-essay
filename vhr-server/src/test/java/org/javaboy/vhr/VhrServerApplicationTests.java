@@ -1,10 +1,8 @@
 package org.javaboy.vhr;
 
-import org.javaboy.vhr.bean.Hr;
-import org.javaboy.vhr.bean.Menu;
-import org.javaboy.vhr.bean.Position;
-import org.javaboy.vhr.bean.Role;
+import org.javaboy.vhr.bean.*;
 import org.javaboy.vhr.mapper.HrMapper;
+import org.javaboy.vhr.service.JobLevelService;
 import org.javaboy.vhr.service.MenuService;
 import org.javaboy.vhr.service.PositionService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +23,8 @@ class VhrServerApplicationTests {
     @Autowired
     HrMapper hrMapper;
 
+    @Autowired
+    JobLevelService jobLevelService;
     @Autowired
     MenuService menuService;
     @Test
@@ -81,4 +81,22 @@ class VhrServerApplicationTests {
 //        List<Position> allPosition = positionService.getAllPosition();
 //        System.out.println(allPosition);
     }
+
+    @Test //查询所有职称
+    void text5() {
+        List<JObLevel> allJobLevel = jobLevelService.getAllJobLevel();
+        System.out.println(allJobLevel);
+    }
+
+    @Test //添加职称
+    void text6() {
+        JObLevel jObLevel=new JObLevel();
+        //jObLevel.setId(99);
+        jObLevel.setName("架构师");
+        jObLevel.setEnabled(true);
+        jObLevel.setCreateDate(new Date());
+        int i = jobLevelService.addJobLevel(jObLevel);
+        System.out.println(i);
+    }
+
 }
