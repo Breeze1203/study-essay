@@ -50,7 +50,7 @@ instace.interceptors.request.use(
 
 instace.interceptors.response.use(
     success => {
-        if (success.data.status == 500) {
+        if (success.data.status === 500) {
             ElMessage.error('用户名或密码错误，请重新输入')
             return;
         }
