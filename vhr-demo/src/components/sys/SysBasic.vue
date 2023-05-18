@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activity">
         <el-tab-pane label="部门管理" name="first"><DepMana></DepMana></el-tab-pane>
         <el-tab-pane label="职位管理" name="two"><EcMana></EcMana></el-tab-pane>
         <el-tab-pane label="职称管理" name="three"><jobLeveLMana></jobLeveLMana></el-tab-pane>
@@ -21,7 +21,7 @@ import PosMana from "../sys/basic/PosMana.vue"
 export default {
   data(){
     return{
-      activeName:'first'
+      activity:'first'
     }
   },
   components:{
