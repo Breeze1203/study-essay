@@ -139,6 +139,14 @@ const request = {
                 ids: ids,
             }
         })
+    },
+    // 批量删除
+    getAllRoles() {
+        return instace({
+            method: 'get',
+            url: '/api/sys/permission/getAllRoles',
+            contentType: '"application/json"',
+        })
     }
 }
 
