@@ -1,10 +1,12 @@
 package org.javaboy.vhr;
 
+import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.*;
 import org.javaboy.vhr.mapper.HrMapper;
 import org.javaboy.vhr.service.JobLevelService;
 import org.javaboy.vhr.service.MenuService;
 import org.javaboy.vhr.service.PositionService;
+import org.javaboy.vhr.service.RoleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -98,5 +100,11 @@ class VhrServerApplicationTests {
         int i = jobLevelService.addJobLevel(jObLevel);
         System.out.println(i);
     }
-
+    @Resource(name = "RoleService")
+    RoleService roleService;
+    @Test //查看所有角色
+    void text7(){
+        List<Role> allRoles = roleService.getAllRoles();
+        System.out.println(allRoles);
+    }
 }
