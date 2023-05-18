@@ -17,7 +17,7 @@ public interface JObLevelMapper {
 
     // 更新职称
     int updateByPrimaryKeySelective(JObLevel record);
-    
+
 
     // 查询所有职称
     List<JObLevel> getAllJobLevel();
