@@ -5,6 +5,7 @@ import org.javaboy.vhr.bean.Role;
 import org.javaboy.vhr.mapper.RoleMapper;
 import org.javaboy.vhr.service.RoleService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,4 +26,5 @@ public class PermissionController {
     public List<Role> getAllRoles(){
         return roleService.getAllRoles();
     }
+
 }
