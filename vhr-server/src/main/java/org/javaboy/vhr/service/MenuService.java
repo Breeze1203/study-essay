@@ -26,4 +26,13 @@ public class MenuService {
         return menuMapper.getAllMenusWithRole();
     }
 
+    // 查询所有的菜单
+    public List<Menu> getAllMenu(){
+        return menuMapper.getAllMenu();
+    }
+
+    public List<Integer> getMenusByRole(Integer mid){
+        return menuMapper.getMenusByRole(mid);
+    }
+
 }
