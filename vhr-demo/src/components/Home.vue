@@ -27,9 +27,9 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <el-breadcrumb v-if="this.$router.currentRoute.value.path!='/Home'">
+          <el-breadcrumb v-if="this.$router.currentRoute.value.path!=='/Home'">
             <el-breadcrumb-item :to="{ path: '/Home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>{{this.$router.currentRoute.value.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ this.$router.currentRoute.value.name }}</el-breadcrumb-item>
           </el-breadcrumb>
           <router-view class="mainView"/>
         </el-main>
@@ -50,11 +50,11 @@ export default {
       user: JSON.parse(window.sessionStorage.getItem('user')),
     }
   },
-    computed: {
-      routes() {
-       return this.$store.state.routes
-     }
-   },
+  computed: {
+    routes() {
+      return this.$store.state.routes
+    }
+  },
   methods: {
     handleOpen(index) {
       this.$router.push(index);
@@ -93,9 +93,10 @@ export default {
 </script>
 
 <style>
-.mainView{
+.mainView {
   margin-top: 10px;
 }
+
 .header {
   background-color: rgba(56, 150, 230, 0.87);
   display: flex;

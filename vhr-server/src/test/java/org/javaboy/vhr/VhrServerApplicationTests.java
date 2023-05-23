@@ -107,4 +107,16 @@ class VhrServerApplicationTests {
         List<Role> allRoles = roleService.getAllRoles();
         System.out.println(allRoles);
     }
+
+    @Test //查看所有菜单
+    void text8(){
+        List<Menu> allMenu = menuService.getAllMenu();
+        System.out.println(allMenu);
+    }
+
+    @Test //查看不同角色所拥有的menu
+    void text9(){
+        List<Integer> menusByRole = menuService.getMenusByRole(1);
+        System.out.println(menusByRole.size());
+    }
 }
