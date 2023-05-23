@@ -147,6 +147,25 @@ const request = {
             url: '/api/sys/permission/getAllRoles',
             contentType: '"application/json"',
         })
+    },
+    // 查询所有菜单,PostMana.vue使用
+    getAllMenus(){
+        return instace({
+            method:'get',
+            url:'/api/menus/getAllMenus',
+            contentType: '"application/json"',
+        })
+    },
+    // 根据角色查询其可以访问的菜单
+    getMenusByRole(ItemId){
+        return instace({
+            method:'post',
+            url:'/api/menus/getMenusByRole',
+            contentType: '"application/json"',
+            data:{
+                mid:ItemId,
+            }
+        })
     }
 }
 
