@@ -64,6 +64,7 @@
             <result column="rnameZh" property="nameZh"/>
         </collection>
     </resultMap>
+    <!--    根据用户角色所显示其菜单-->
     <select id="getAllMenusWithRole" resultMap="MenuWithRole">
         select m.*, r.id, r.name as rname, r.nameZh as rnameZh
         from menu m,
@@ -72,5 +73,34 @@
         where m.id = mr.mid
           and mr.rid = r.id
         order by m.id
+    </select>
+    <!--    查询结果类似与
+    -->
+    <resultMap id="allMenus" type="org.javaboy.vhr.bean.Menu" extends="BaseResultMap">
+        <result property="name" column="name1"/>
+        <result property="id" column="id1"/>
+        <collection property="children" ofType="org.javaboy.vhr.bean.Menu">
+            <result property="name" column="name2"/>
+            <result property="id" column="id2"/>
+            <collection property="children" ofType="org.javaboy.vhr.bean.Menu">
+                <result property="name" column="name3"/>
+                <result property="id" column="id3"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <!--    查询所有菜单-->
+    <select id="getAllMenu" resultMap="allMenus">
+        select m1.id as id1, m1.name as name1, m2.id as id2, m2.name as name2, m3.id as id3, m3.name as name3
+        from menu m1,
+             menu m2,
+             menu m3
+        where m1.id = m2.parentId
+          and m2.id = m3.parentId
+    </select>
+    <!--    根据角色查询其具有的菜单权限 根据menu_role表的rid查询mid-->
+    <select id="getMenusByRole" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select mid
+        from menu_role
+        where rid = #{rid}
     </select>
 </mapper>
