@@ -9,14 +9,19 @@ import {formatRoutes} from './utils/menus'
 // 导入font-awesome图标
 import 'font-awesome/css/font-awesome.min.css'
 import request from "@/api/request";
+import {ElMessage} from "element-plus";
 
 
 const app = createApp(App);
 router.beforeEach((to, from, next) => {
-    if (to.path == '/') {
+    if (to.path ==='/') {
         next()
     } else {
-        if (store.state.routes == 0) {
+        if(window.sessionStorage.getItem("user")===null){
+            ElMessage.error("尚未登录，请登录");
+            router.replace("/");
+        }
+        if (store.state.routes.length=== 0) {
             request.menuinit().then(resp => {
                 let b = formatRoutes(resp.data);
                 // 将查询到的菜单数据存入store中
