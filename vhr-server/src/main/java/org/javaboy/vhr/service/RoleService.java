@@ -20,4 +20,12 @@ public class RoleService {
     public List<Role> getAllRoles(){
         return roleMapper.getAllRoles();
     }
+
+    public int addRole(Role role){
+        return roleMapper.insert(role);
+    }
+
+    public int deleteRoleById(Integer id){
+        return roleMapper.deleteByPrimaryKey(id);
+    }
 }
