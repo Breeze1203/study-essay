@@ -39,4 +39,5 @@ public class Role {
     public void setNameZh(String nameZh) {
         this.nameZh = nameZh;
     }
+
 }
