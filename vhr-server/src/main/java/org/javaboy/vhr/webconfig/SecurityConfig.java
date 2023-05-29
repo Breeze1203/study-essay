@@ -2,7 +2,9 @@ package org.javaboy.vhr.webconfig;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.javaboy.vhr.bean.Hr;
 import org.javaboy.vhr.utils.StatusUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +14,21 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 
 @Configuration
 public class SecurityConfig {
 
-//    @Autowired
-//    MyFilter myFilter;
-//
-//    @Autowired
-//    MyAccessDecisionManage myAccessDecisionManage;
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -86,7 +87,19 @@ public class SecurityConfig {
                 })
                 .and()
                 .csrf()
-                .disable();
+                .disable()
+                // 认证失败的处理
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                        response.setContentType("application/json;charset=utf-8");
+                        PrintWriter out=response.getWriter();
+                        if(authException instanceof InsufficientAuthenticationException){
+                            // 将java对象转为字符串
+                            out.print(new ObjectMapper().writeValueAsString(new StatusUtils(401)));
+                        }
+                    }
+                });
         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         // 这是允许将csrf令牌存储到cookie中
 
