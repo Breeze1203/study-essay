@@ -22,7 +22,7 @@ public class GlobalExceptionHandle {
     public StatusUtils SQLException(SQLException e){
        StatusUtils statusUtils = new StatusUtils();
        if(e instanceof SQLIntegrityConstraintViolationException){
-           statusUtils.setMessage("该数据有关联数据，无法删除");
+           statusUtils.setMessage("该数据名称有关联数据，无法进行操作");
        }else {
            statusUtils.setMessage("数据库异常，操作失败");
        }
