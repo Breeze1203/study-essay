@@ -3,10 +3,7 @@ package org.javaboy.vhr;
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.*;
 import org.javaboy.vhr.mapper.HrMapper;
-import org.javaboy.vhr.service.JobLevelService;
-import org.javaboy.vhr.service.MenuService;
-import org.javaboy.vhr.service.PositionService;
-import org.javaboy.vhr.service.RoleService;
+import org.javaboy.vhr.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +21,9 @@ class VhrServerApplicationTests {
     PositionService positionService;
     @Autowired
     HrMapper hrMapper;
+
+    @Autowired
+    DepartmentService departmentService;
 
     @Autowired
     JobLevelService jobLevelService;
@@ -118,5 +118,18 @@ class VhrServerApplicationTests {
     void text9(){
         List<Integer> menusByRole = menuService.getMenusByRole(1);
         System.out.println(menusByRole.size());
+    }
+
+    @Test //给不同的角色插入不同的mid
+    void text10(){
+        Integer[] integers = new Integer[]{1, 23, 5};
+        System.out.println(integers);
+        int i = menuService.insertRoleMenu(new Integer[]{2, 3, 4, 9}, 14);
+        System.out.println(i);
+    }
+    @Test
+    void text11(){
+        List<Department> allDepartmentByParentId = departmentService.getAllDepartmentByParentId(-1);
+        System.out.println(allDepartmentByParentId);
     }
 }
