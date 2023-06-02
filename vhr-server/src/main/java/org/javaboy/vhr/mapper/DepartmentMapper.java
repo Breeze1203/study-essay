@@ -1,7 +1,10 @@
 package org.javaboy.vhr.mapper;
 
 import org.javaboy.vhr.bean.Department;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
+@Repository("DepartmentMapper")
 public interface DepartmentMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,7 +14,13 @@ public interface DepartmentMapper {
 
     Department selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Department record);
+    int updateByPrimaryKeySelective(Department department);
 
     int updateByPrimaryKey(Department record);
+
+    // 根据parentId查询所有部门
+    List<Department> getAllDepartmentByParentId(Integer parentId);
+
+    String findIdByName(String name);
+
 }
