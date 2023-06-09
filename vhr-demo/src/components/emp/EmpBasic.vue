@@ -1,3 +1,13 @@
 <template>
-    <h3>EmpBasic</h3>
+$END$
 </template>
+
+<script>
+export default {
+name: "EmpBasic"
+}
+</script>
+
+<style scoped>
+
+</style>
