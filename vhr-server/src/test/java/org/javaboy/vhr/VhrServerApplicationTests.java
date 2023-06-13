@@ -2,13 +2,19 @@ package org.javaboy.vhr;
 
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.*;
+import org.javaboy.vhr.mapper.DepartmentMapper;
+import org.javaboy.vhr.mapper.EmployeeMapper;
 import org.javaboy.vhr.mapper.HrMapper;
+import org.javaboy.vhr.mapper.HrRoleMapper;
 import org.javaboy.vhr.service.*;
+import org.javaboy.vhr.service.emp.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +32,16 @@ class VhrServerApplicationTests {
     DepartmentService departmentService;
 
     @Autowired
+    DepartmentMapper departmentMapper;
+
+    @Autowired
     JobLevelService jobLevelService;
     @Autowired
     MenuService menuService;
+
+
+    @Autowired
+    EmployeeMapper employeeMapper;
     @Test
     void contextLoads() {
         Hr admin = hrMapper.findHrByUsername("admin");
@@ -131,5 +144,59 @@ class VhrServerApplicationTests {
     void text11(){
         List<Department> allDepartmentByParentId = departmentService.getAllDepartmentByParentId(-1);
         System.out.println(allDepartmentByParentId);
+    }
+
+    // 根据id查询所有部门
+    @Test
+    void text12(){
+//        Department department = departmentMapper.selectByPrimaryKey(92);
+//        String depPath = department.getDepPath();
+//        System.out.println(depPath);
+//        Department department1 = new Department();
+//        department1.setName("运维3部");
+//        department1.setChildren(new ArrayList<>());
+//        department1.setEnabled(true);
+//        department1.setParentId(92);
+//        int insert = departmentMapper.insert(department1);
+//        System.out.println(insert);
+//        int de= departmentMapper.findIdByName("运维3部");
+//        System.out.println(de);
+//        int res = departmentService.addDepartment(92, ".1.4.5.92", "运维4部");
+//        System.out.println(res);
+    }
+
+//    根据部门的parentId查找员工
+    @Test
+    void text13(){
+        List<Employee> workerByParentId = employeeMapper.findWorkerByDepartmentId(91);
+        System.out.println(workerByParentId);
+    }
+    @Test
+    void text14(){
+        List<Hr> allHr = hrMapper.getAllHr(3,"彭");
+        System.out.println(allHr.size());
+    }
+
+    @Resource(name = "HrRoleMapper")
+    HrRoleMapper hrRoleMapper;
+    // 给用户添加角色
+    @Test
+    void text15(){
+//        int i = hrRoleMapper.insertRoleByHr(3, new Integer[]{6, 5});
+        int i = hrRoleMapper.deleteHrRoleByHrid(3);
+        System.out.println(i);
+    }
+
+    @Resource(name = "EmployeeService")
+    EmployeeService employeeService;
+    // 分页查询员工
+    @Test
+    void text16(){
+//        List<Employee> employees = employeeMapper.SelectEmpByPage(15,20);
+//        System.out.println(employees.get(14));
+//        List<Employee> employeeByPage = employeeService.getEmployeeByPage(25,2);
+//        System.out.println(employeeByPage.get(0));
+//        System.out.println(employeeByPage.get(24));
+//        System.out.println(employeeByPage.size());
     }
 }
