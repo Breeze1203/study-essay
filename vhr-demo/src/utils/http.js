@@ -1,6 +1,7 @@
 import querystring from "querystring";
 import axios from "axios";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
+import router from "../router";
 
 const errorHandle = (status, info) => {
     switch (status) {
@@ -8,7 +9,7 @@ const errorHandle = (status, info) => {
             console.log("语义有误");
             break;
         case 401:
-            console.log("服务器认证失败");
+            console.log("认证失败");
             break;
         case 403:
             console.log("服务器拒绝访问");
@@ -50,6 +51,10 @@ instace.interceptors.request.use(
 
 instace.interceptors.response.use(
     success => {
+        if(success.data.status===401){
+            router.replace("/");
+            ElMessage.error("请重新登录");
+        }
         if (success.data.status === 500) {
             ElMessage.error('用户名或密码错误，请重新输入')
             return;
