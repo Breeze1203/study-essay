@@ -9,26 +9,26 @@
             <el-dropdown-menu>
               <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
               <el-dropdown-item command="setting">设置</el-dropdown-item>
-              <el-dropdown-item divided command="logout">注销登录</el-dropdown-item>
+              <el-dropdown-item command="logout" divided>注销登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <el-menu @select="handleOpen" v-for="(item,index) in routes">
-            <el-sub-menu index="1">
+          <el-menu v-for="(item,index) in routes" :key="index" @select="handleOpen">
+            <el-sub-menu index="0">
               <template #title>
                 <i :class="item.iconCls"></i>
                 <span>{{ item.name }}</span>
               </template>
-              <el-menu-item :index="child.path" v-for="(child,indexj) in item.children">{{ child.name }}</el-menu-item>
+              <el-menu-item v-for="(child,indexj) in item.children" :index="child.path">{{ child.name }}</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-aside>
         <el-main>
-          <el-breadcrumb v-if="this.$router.currentRoute.value.path!=='/Home'">
-            <el-breadcrumb-item :to="{ path: '/Home' }">首页</el-breadcrumb-item>
+          <el-breadcrumb v-if="this.$router.currentRoute.value.path!=='/home'">
+            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>{{ this.$router.currentRoute.value.name }}</el-breadcrumb-item>
           </el-breadcrumb>
           <router-view class="mainView"/>
@@ -41,6 +41,7 @@
 <script>
 import {ElMessage, ElMessageBox} from 'element-plus';
 import request from '@/api/request';
+import router from '../router'
 
 
 export default {
@@ -57,11 +58,11 @@ export default {
   },
   methods: {
     handleOpen(index) {
-      this.$router.push(index);
+      router.push(index);
     },
     // 这里的参数是command选中的
     commandHander(message) {
-      if (message == 'logout') {
+      if (message === 'logout') {
         ElMessageBox.confirm(
             "此操作将注销登录，是否继续",
             {
@@ -78,7 +79,7 @@ export default {
               request.logout().then(request => {
                 console.log(request.data);
               });
-              this.$router.replace("/");
+              router.push("/");
             })
             .catch(() => {
               ElMessage({
