@@ -1,5 +1,6 @@
 package org.javaboy.vhr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.javaboy.vhr.bean.Employee;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,10 @@ public interface EmployeeMapper {
 
     // 根据部门的parentId查找员工
     List<Employee> findWorkerByDepartmentId(Integer departmentId);
+
+    // 分页查询员工
+    List<Employee> SelectEmpByPage(@Param("size") Integer size, @Param("page") Integer page,@Param("keyword")String keyword);
+
+    // 查询数据的总条数
+    long getEmpCount(@Param("keyword")String keyword);
 }
