@@ -55,4 +55,10 @@
     set name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--查询所有政治面貌-->
+  <select id="AllPoliticsStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from politicsstatus
+  </select>
 </mapper>
