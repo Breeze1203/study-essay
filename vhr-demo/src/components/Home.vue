@@ -17,7 +17,7 @@
       <el-container>
         <el-aside width="200px">
           <el-menu v-for="(item,index) in routes" :key="index" @select="handleOpen">
-            <el-sub-menu index="0">
+            <el-sub-menu :index="1">
               <template #title>
                 <i :class="item.iconCls"></i>
                 <span>{{ item.name }}</span>
@@ -27,6 +27,25 @@
           </el-menu>
         </el-aside>
         <el-main>
+          <div v-if="this.$router.currentRoute.value.path==='/home'">
+            <div style="display: flex;justify-content: space-around;flex-wrap: wrap">
+              <el-image style="width: 300px;height: 230px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ50H-17jnOYTsjp39sJ9y7jt-GdFuTM57-zw&usqp=CAU"/>
+              <el-image style="width: 300px;height: 230px;margin-left: 50px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5-IKJwr2D5r-Ji1c_YeJbiuppjkkBdn6vww&usqp=CAU"/>
+              <el-image style="width: 300px;height: 230px;margin-left: 50px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwVLwjEXg2SYj_gYmMfU1YdVu4EZW1yQRfCQ&usqp=CAU"/>
+            </div>
+            <div style="display: flex;justify-content: space-around;flex-wrap: wrap">
+              <el-image style="width: 300px;height: 230px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb6nzf-EHqoQckrUQmr7Wn4eMojLFM5wc3fA&usqp=CAU"/>
+              <el-image style="width: 300px;height: 230px;margin-left: 50px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZEusumg08TIPtotzstwStaDtsqkUvtPRiA&usqp=CAU"/>
+              <el-image style="width: 300px;height: 230px;margin-left: 50px;margin-top: 25px"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeyRWYlskllaLZmsdIeTqbnmzDgbq0l5Z8-g&usqp=CAU"/>
+
+            </div>
+          </div>
           <el-breadcrumb v-if="this.$router.currentRoute.value.path!=='/home'">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>{{ this.$router.currentRoute.value.name }}</el-breadcrumb-item>
@@ -53,6 +72,7 @@ export default {
   },
   computed: {
     routes() {
+      console.log(this.$store.state.routes);
       return this.$store.state.routes
     }
   },
