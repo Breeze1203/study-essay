@@ -22,7 +22,6 @@ router.beforeEach((to, from, next) => {
                 // 将查询到的菜单数据存入store中
                 store.commit('menu', b);
                 for (var i = 0; i < b.length; i++) {
-                    console.log(b[i].children);
                     router.addRoute(b[i])
                 }
                 next({...to, replace: true});
