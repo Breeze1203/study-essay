@@ -93,8 +93,9 @@ export default {
         ElMessage.error('请选择可访问的资源')
         return;
       }
-      // 通过ref属性获取到这个对象,通过这个对象调用他的方法，然而这个tree有多个,类似与数组，所以要有下标
-      request.updateMenusByRole(rid, this.$refs.tree[index].getCheckedKeys()).then(res => {
+      //通过ref属性获取到这个对象,通过这个对象调用他的方法，然而这个tree有多个,类似与数组，所以要有下标
+      // getCheckedKeys(true)参数为true获取子节点数
+      request.updateMenusByRole(rid, this.$refs.tree[index].getCheckedKeys(true)).then(res => {
         if (res) {
           this.activeNames = -1;
         }

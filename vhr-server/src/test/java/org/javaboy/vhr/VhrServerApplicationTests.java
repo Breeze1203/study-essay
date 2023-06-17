@@ -8,6 +8,7 @@ import org.javaboy.vhr.mapper.HrMapper;
 import org.javaboy.vhr.mapper.HrRoleMapper;
 import org.javaboy.vhr.service.*;
 import org.javaboy.vhr.service.emp.EmployeeService;
+import org.javaboy.vhr.utils.EmpUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -192,11 +193,25 @@ class VhrServerApplicationTests {
     // 分页查询员工
     @Test
     void text16(){
+//        long empCount = employeeMapper.getEmpCount("江");
+//        System.out.println(empCount);
+//        EmpUtil res = employeeService.getEmployeeByPage(10, 1, "江");
+//        System.out.println(res);
 //        List<Employee> employees = employeeMapper.SelectEmpByPage(15,20);
 //        System.out.println(employees.get(14));
 //        List<Employee> employeeByPage = employeeService.getEmployeeByPage(25,2);
 //        System.out.println(employeeByPage.get(0));
 //        System.out.println(employeeByPage.get(24));
 //        System.out.println(employeeByPage.size());
+//        Employee employee = new Employee();
+//        employee.setBegindate(new Date());
+//        employee.setBeginContract(new Date());
+//        employee.setContractTerm(2.0);
+//        employee.setAddress("中国深圳");
+//        employee.setBegindate(new Date());
+//        employee.setEmail("2321");
+//        employee.setBirthday(new Date());
+//        Integer integer = employeeService.addEmployee(employee);
+//        System.out.println(employee);
     }
 }
