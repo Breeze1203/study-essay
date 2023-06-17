@@ -1,6 +1,6 @@
 import querystring from "querystring";
 import axios from "axios";
-import { ElMessage } from 'element-plus';
+import {ElMessage} from 'element-plus';
 import router from "../router";
 
 const errorHandle = (status, info) => {
@@ -40,7 +40,9 @@ instace.interceptors.request.use(
     config => {
         // 对post方法参数进行处理
         if (config.method === 'post') {
-            config.data = querystring.stringify(config.data)
+            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp') {
+                config.data = querystring.stringify(config.data)
+            }
         }
         return config
     },
@@ -51,7 +53,7 @@ instace.interceptors.request.use(
 
 instace.interceptors.response.use(
     success => {
-        if(success.data.status===401){
+        if (success.data.status === 401) {
             router.replace("/");
             ElMessage.error("请重新登录");
         }
@@ -59,8 +61,8 @@ instace.interceptors.response.use(
             ElMessage.error('用户名或密码错误，请重新输入')
             return;
         }
-        if(success.data.message){
-            ElMessage.success({message:success.data.message})  
+        if (success.data.message) {
+            ElMessage.success({message: success.data.message})
         }
         return success;
     },
