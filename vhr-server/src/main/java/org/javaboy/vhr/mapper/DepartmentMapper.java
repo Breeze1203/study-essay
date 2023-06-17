@@ -23,4 +23,7 @@ public interface DepartmentMapper {
 
     String findIdByName(String name);
 
+//    查询所有部门
+    List<Department> allDepartment();
+
 }

@@ -121,4 +121,9 @@
         from department
         where name = #{name}
     </select>
+    <!--  查询所有部门-->
+    <select id="allDepartment" resultMap="BaseResultMap">
+        select *
+        from department;
+    </select>
 </mapper>
