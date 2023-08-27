@@ -13,6 +13,14 @@ public class Politicsstatus {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Politicsstatus{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

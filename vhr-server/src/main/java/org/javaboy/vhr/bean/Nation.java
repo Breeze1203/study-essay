@@ -17,6 +17,14 @@ public class Nation {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "Nation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
