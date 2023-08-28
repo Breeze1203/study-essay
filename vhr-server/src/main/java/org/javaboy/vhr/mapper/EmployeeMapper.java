@@ -28,4 +28,7 @@ public interface EmployeeMapper {
 
     // 查询数据的总条数
     long getEmpCount(@Param("keyword")String keyword);
+
+    //根据集合插入
+    int insertByList(@Param("list")List<Employee> list);
 }

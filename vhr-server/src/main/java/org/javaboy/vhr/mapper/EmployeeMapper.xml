@@ -80,8 +80,10 @@
         <if test="keyword!=null and keyword !=''">
             and emp.name like CONCAT('%',#{keyword},'%')
         </if>
-        limit #{size}
-        offset #{page}
+        <if test="size!=null and page !=null">
+            limit #{size}
+            offset #{page}
+        </if>
     </select>
     <sql id="Base_Column_List">
         id
@@ -260,4 +262,18 @@
             where name like CONCAT('%',#{keyword},'%')
         </if>
     </select>
+<!--    根据集合插入-->
+    <insert id="insertByList" parameterType="java.util.List">
+        insert into employee(id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email,
+        phone, address, departmentId, jobLevelId, engageForm, tiptopDegree, specialty,
+        school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate,
+        beginContract, endContract, workAge)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.name},#{item.gender},#{item.birthday},#{item.idCard},#{item.wedlock},#{item.nationId},#{item.nativePlace},#{item.politicId},
+            #{item.email},#{item.phone},#{item.address},#{item.departmentId},#{item.jobLevelId},
+            #{item.engageForm},#{item.tipTopdeGree},#{item.specialty},#{item.school},#{item.begindate},#{item.workState},
+            #{item.workId},#{item.contractTerm},#{item.conversionTime},#{item.notworkdate},#{item.beginContract},#{item.endContract},#{item.workAge})
+        </foreach>
+    </insert>
 </mapper>
