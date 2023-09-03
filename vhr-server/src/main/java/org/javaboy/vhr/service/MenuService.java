@@ -19,31 +19,31 @@ public class MenuService {
     @Resource(name = "MenuMapper")
     MenuMapper menuMapper;
 
-    @Resource(name="MenuRoleMapper")
+    @Resource(name = "MenuRoleMapper")
     MenuRoleMapper menuRoleMapper;
 
-    public List<Menu> getMenuByHrId(){
+    public List<Menu> getMenuByHrId() {
         // 从当前登录用户提取用户登录信息
         return menuMapper.
                 getMenuByHrId((((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
 
-    public List<Menu> getAllMenusWithRole(){
+    public List<Menu> getAllMenusWithRole() {
         return menuMapper.getAllMenusWithRole();
     }
 
     // 查询所有的菜单
-    public List<Menu> getAllMenu(){
+    public List<Menu> getAllMenu() {
         return menuMapper.getAllMenu();
     }
 
-    public List<Integer> getMenusByRole(Integer mid){
+    public List<Integer> getMenusByRole(Integer mid) {
         return menuMapper.getMenusByRole(mid);
     }
 
     // 给不同角色插入可访问的菜单 删除角色所拥有的菜单
     @Transactional // 表明是一个事务
-    public int insertRoleMenu(Integer[] mids,int rid){
+    public int insertRoleMenu(Integer[] mids, int rid) {
         menuRoleMapper.deleteMenuByRole(rid);
         return menuRoleMapper.insertRoleMenu(mids, rid);
     }
