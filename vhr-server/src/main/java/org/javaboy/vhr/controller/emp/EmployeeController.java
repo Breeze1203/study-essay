@@ -78,6 +78,10 @@ public class EmployeeController {
 //        PoiUtil.importExcel(file,new ArrayList<>());
         EmpUtil allUtil = employeeService.getAllUtil();
         List<Employee> employees = PoiUtil.importExcel(file, allUtil);
+        for (Employee e : employees
+        ) {
+            System.out.println(e.getPosId());
+        }
         int size = employeeService.insertByList(employees);
         if (size > 0) {
             return new StatusUtils("导入成功");
