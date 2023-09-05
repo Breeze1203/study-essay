@@ -1,23 +1,120 @@
 <template>
   <div style="display: flex;justify-content: space-between;width: 95%;margin-top: 16px">
     <div>
-      <el-input placeholder="输入用户名搜索用户" prefix-icon="Search" v-model="EmpName" size="small"
+      <el-input placeholder="输入用户名搜索用户" prefix-icon="Search" :disabled="showSearch" v-model="EmpName"
+                size="small"
                 style="width: 300px;margin-right: 15px" @keydown.enter.native="Search"/>
-      <el-button type="primary" size="small" icon="Search" @click="Search">搜索</el-button>
-      <el-button type="primary" size="small" icon="ArrowDownBold">高级搜索</el-button>
+      <el-button type="primary" size="small" icon="Search" :disabled="showSearch" @click="Search">搜索</el-button>
+      <el-button type="primary" size="small" icon="ArrowDownBold" @click="AdvSearch">高级搜索</el-button>
     </div>
     <div style="display:inline-flex;">
       <!--      文件上传失败的钩子--><!--      文件上传成功的钩子-->
       <el-upload action="http://localhost:8080//api/employee/basic/upload"
-      :on-error="error"
-      :on-success="success" :show-file-list="false"
-      multiple>
-      <el-button style="margin-right: 35px" type="primary" icon="Download" size="small">导入数据</el-button>
+                 :on-error="error"
+                 :on-success="success" :show-file-list="false"
+                 multiple>
+        <el-button style="margin-right: 35px" type="primary" icon="Download" size="small">导入数据</el-button>
       </el-upload>
       <el-button style="margin-right: 20px" type="success" size="small" icon="Upload" @click="Download">导出数据
       </el-button>
       <el-button type="primary" size="small" icon="Plus" @click="addWorker">添加用户</el-button>
     </div>
+  </div>
+  <div style="display: flex;justify-content: space-between;width: 95%;margin-top: 16px;border: 1px solid black;"
+       v-show="AdvancedSearch">
+    <el-form status-icon :model="emp" :rules="rules">
+      <el-row :gutter="2">
+        <el-col :span="6">
+          <el-form-item label="政治面貌" style="width: 80%;" prop="politicId">
+            <el-select v-model="emp.politicId" size="small" placeholder="请输入政治面貌">
+              <el-option
+                  v-for="item in politicsStatusData"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="民族" style="width: 80%;" prop="nationId">
+            <el-select v-model="emp.nationId" placeholder="请选择民族" size="small">
+              <el-option
+                  v-for="item in nations"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="职位" style="width: 80%;" prop="posId">
+            <el-select v-model="emp.posId" placeholder="请选择职位" size="small">
+              <el-option
+                  v-for="item in positions"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="职称" style="width: 80%;" prop="jobLevelId">
+            <el-select v-model="emp.jobLevelId" placeholder="请选择职称"
+                       size="small">
+              <el-option
+                  v-for="item in jObLevels"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="聘用形式" style="width: 80%;" prop="engageForm">
+            <el-radio-group v-model="emp.engageForm" size="small">
+              <el-radio label="劳动合同">劳动合同</el-radio>
+              <el-radio label="劳务合同">劳务合同</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="所属部门" style="width: 80%;" prop="departmentId">
+            <el-select v-model="emp.departmentId" placeholder="请选择部门名称"
+                       size="small">
+              <el-option
+                  v-for="item in departments"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="入职日期" style="width: 80%;" prop="begin">
+            <el-date-picker
+                v-model="StartAndEnd"
+                type="daterange"
+                start-placeholder="star"
+                end-placeholder="end"
+                size='small'
+            />
+          </el-form-item>
+        </el-col>
+        <el-row>
+          <el-form-item>
+            <el-button size="small" @click="CancleSearch">取消</el-button>
+            <el-button size="small" type="primary" icon="Search" @click="SearchAdvanced">搜索</el-button>
+          </el-form-item>
+        </el-row>
+      </el-row>
+    </el-form>
   </div>
   <div style="margin-top: 14px">
     <el-table v-loading="loading" border stripe style="width: 95%" size="small" :data="EmpTable">
@@ -303,6 +400,11 @@ export default {
       page: 1,
       size: 10,
       total: '',
+      // 高级搜索的时间选择
+      StartAndEnd: '',
+      showSearch: false,
+      // 高级搜索的属性
+      AdvancedSearch: false,
       DialogVisible: false,
       tiptopDegree: ["博士", "硕士", "本科", "大专", "高中", "初中", "小学", "其它"],
       politicsStatusData: [],
@@ -375,6 +477,11 @@ export default {
         beginContract: null,
         endContract: null,
         workAge: null,
+        nation: null,
+        politicsstatus: null,
+        position: null,
+        department: null,
+        jobLevel: null,
       }
     }
   },
@@ -386,6 +493,36 @@ export default {
   }
   ,
   methods: {
+    // 高级搜索
+    AdvSearch() {
+      // 展示高级搜索时，普通搜索按钮变得不可用
+      this.showSearch = true;
+      this.AdvancedSearch = true;
+    },
+    // 取消高级搜索
+    CancleSearch() {
+      this.showSearch = false;
+      this.AdvancedSearch = false;
+      this.StartAndEnd = null;
+      // 给里面的数据变为空
+      this.emptyEmp();
+      this.initEmp();
+    },
+    // 进行高级搜索
+    SearchAdvanced() {
+      this.showSearch = true;
+      request.getEmpByPageAdvanch(this.size, this.page, this.emp).then(resp => {
+        if (resp.data.employeeList !== null) {
+          this.EmpTable = resp.data.employeeList;
+          this.total = resp.data.total;
+          this.politicsStatusData = resp.data.politicsStatus;
+          this.nations = resp.data.nations;
+          this.positions = resp.data.positions;
+          this.jObLevels = resp.data.jObLevels;
+          this.departments = resp.data.departments;
+        }
+      })
+    },
     //下载数据
     Download() {
       window.open("/api/employee/basic/downExcel", '_parent')
@@ -437,7 +574,7 @@ export default {
         ElMessage.error(response.message)
       }
     },
-    error(errorResponse,file,files){
+    error(errorResponse, file, files) {
       ElMessage.error("上传失败，请稍后再试")
     },
     // 修改用户
