@@ -275,4 +275,76 @@
             #{item.workId},#{item.contractTerm},#{item.conversionTime},#{item.notworkdate},#{item.beginContract},#{item.endContract},#{item.workAge})
         </foreach>
     </insert>
+<!--    高级搜索-->
+    <select id="SelectEmpByPageAdvanced" resultMap="EmpInfo">
+        select emp.*,
+        n.id as nid,
+        n.name as nname,
+        p.id as pid,
+        p.name as pname,
+        d.id as did,
+        d.name as dname,
+        j.id as jid,
+        j.name as jname,
+        pos.id as posId,
+        pos.name as posName
+        from employee emp,
+        nation n,
+        politicsstatus p,
+        department d,
+        joblevel j,
+        position pos
+        where emp.nationId = n.id
+        and emp.politicId = p.id
+        and emp.departmentId = d.id
+        and emp.jobLevelId = j.id
+        and emp.posId = pos.id
+        <if test="emp.departmentId!=null">
+            and emp.departmentId=#{emp.departmentId}
+        </if>
+        <if test="emp.engageForm!=null">
+            and emp.engageForm=#{emp.engageForm}
+        </if>
+        <if test="emp.jobLevelId">
+            and emp.jobLevelId=#{emp.jobLevelId}
+        </if>
+        <if test="emp.nationId!=null">
+            and emp.nationId=#{emp.nationId}
+        </if>
+
+        <if test="emp.posId!=null">
+            and emp.posId=#{emp.posId}
+        </if>
+        <if test="emp.beginDate!=null">
+            and emp.begindate > #{emp.beginDate}
+        </if>
+        <if test="size!=null and page !=null">
+            limit #{size}
+            offset #{page}
+        </if>
+    </select>
+<!--高级搜索查询总条数-->
+    <!-- 查询总条数-->
+    <select id="getEmpCountAdvanch" resultType="long">
+        select count(*) from employee emp where
+        <if test="emp.departmentId!=null">
+            emp.departmentId=#{emp.departmentId}
+        </if>
+        <if test="emp.engageForm!=null">
+            and emp.engageForm=#{emp.engageForm}
+        </if>
+        <if test="emp.jobLevelId">
+            and emp.jobLevelId=#{emp.jobLevelId}
+        </if>
+        <if test="emp.nationId!=null">
+            and emp.nationId=#{emp.nationId}
+        </if>
+
+        <if test="emp.posId!=null">
+            and emp.posId=#{emp.posId}
+        </if>
+        <if test="emp.beginDate!=null">
+            and emp.begindate > #{emp.beginDate}
+        </if>
+    </select>
 </mapper>
