@@ -21,6 +21,7 @@ public class SystemConfigController {
 
     @PostMapping("/api/menu")
     public List<Menu> allMenu(){
+        System.out.println(menuService.getMenuByHrId());
         return menuService.getMenuByHrId();
     }
 

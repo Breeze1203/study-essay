@@ -3,6 +3,7 @@ package org.javaboy.vhr.controller.emp;
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.Employee;
 import org.javaboy.vhr.service.emp.EmployeeService;
+import org.javaboy.vhr.utils.EmpByPageUtil;
 import org.javaboy.vhr.utils.EmpUtil;
 import org.javaboy.vhr.utils.PoiUtil;
 import org.javaboy.vhr.utils.StatusUtils;
@@ -10,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,10 +21,10 @@ public class EmployeeController {
     @Resource(name = "EmployeeService")
     EmployeeService employeeService;
 
+    //高级搜索跟普通搜索共用
     @PostMapping("/")
-    public EmpUtil getAllEmp(@RequestParam(name = "page") Integer page,
-                             @RequestParam(name = "size") Integer size, @RequestParam(name = "keyword") String keyword) {
-        return employeeService.getEmployeeByPage(size, page, keyword);
+    public EmpUtil getAllEmp(@RequestParam(name = "size")Integer size,@RequestParam(name = "page")Integer page,@RequestParam(name = "keyword")String keyword) {
+        return employeeService.getEmployeeByPage(size,page,keyword);
     }
 
     // 添加员工
@@ -78,14 +76,16 @@ public class EmployeeController {
 //        PoiUtil.importExcel(file,new ArrayList<>());
         EmpUtil allUtil = employeeService.getAllUtil();
         List<Employee> employees = PoiUtil.importExcel(file, allUtil);
-        for (Employee e : employees
-        ) {
-            System.out.println(e.getPosId());
-        }
         int size = employeeService.insertByList(employees);
         if (size > 0) {
             return new StatusUtils("导入成功");
         }
         return new StatusUtils("导入失败，请稍后再试！");
+    }
+
+//    高级搜索
+    @PostMapping("/Advanched")
+    public EmpUtil getEmpByPageAdvanched(@RequestBody EmpByPageUtil emp){
+        return employeeService.getEmployeeByPageAdvanch(emp.getSize(),emp.getPage(), emp.getEmp());
     }
 }

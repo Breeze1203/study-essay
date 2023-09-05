@@ -24,11 +24,18 @@ public interface EmployeeMapper {
     List<Employee> findWorkerByDepartmentId(Integer departmentId);
 
     // 分页查询员工
-    List<Employee> SelectEmpByPage(@Param("size") Integer size, @Param("page") Integer page,@Param("keyword")String keyword);
+    List<Employee> SelectEmpByPage(@Param("size") Integer size, @Param("page") Integer page, @Param("keyword") String keyword);
 
     // 查询数据的总条数
-    long getEmpCount(@Param("keyword")String keyword);
+    long getEmpCount(@Param("keyword") String keyword);
 
     //根据集合插入
-    int insertByList(@Param("list")List<Employee> list);
+    int insertByList(@Param("list") List<Employee> list);
+
+    //    高级搜索
+    List<Employee> SelectEmpByPageAdvanced(@Param("size") Integer size, @Param("page") Integer page, @Param("emp") Employee e);
+
+    // 高级搜索查询总条数
+    long getEmpCountAdvanch(@Param("emp") Employee employee);
+
 }
