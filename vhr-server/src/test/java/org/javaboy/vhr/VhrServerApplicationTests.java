@@ -164,6 +164,11 @@ class VhrServerApplicationTests {
 //        System.out.println(de);
 //        int res = departmentService.addDepartment(92, ".1.4.5.92", "运维4部");
 //        System.out.println(res);
+//        Department department=departmentMapper.selectByPrimaryKey(93);
+//        String depPath = department.getDepPath();
+//        System.out.println(depPath);
+//        Department department1 = new Department();
+//
     }
 
 //    根据部门的parentId查找员工
@@ -213,5 +218,29 @@ class VhrServerApplicationTests {
 //        employee.setBirthday(new Date());
 //        Integer integer = employeeService.addEmployee(employee);
 //        System.out.println(employee);
+        Employee employee = new Employee();
+        employee.setPosId(29);
+        employee.setPoliticId(13);
+        employee.setNationId(1);
+        employee.setJobLevelId(9);
+        employee.setEngageForm("劳务合同");
+        employee.setDepartmentId(5);
+        List<Employee> employees = employeeMapper.SelectEmpByPageAdvanced(10, 1, employee);
+        long empCountAdvanch = employeeMapper.getEmpCountAdvanch(employee);
+        System.out.println(empCountAdvanch);
+        System.out.println(employees);
+    }
+
+    @Test
+    void text17(){
+        Employee employee = new Employee();
+        employee.setPosId(29);
+        employee.setPoliticId(13);
+        employee.setNationId(1);
+        employee.setJobLevelId(9);
+        employee.setEngageForm("劳务合同");
+        employee.setDepartmentId(5);
+        EmpUtil employeeByPageAdvanch = employeeService.getEmployeeByPageAdvanch(10, 1, employee);
+        System.out.println(employeeByPageAdvanch);
     }
 }
