@@ -338,7 +338,7 @@ const request = {
     // 高级搜索
     getEmpByPageAdvanch(size,page,emp){
         return instace({
-            method:"post",
+            method:'post',
             url: `/api/employee/basic/Advanched`,
             headers: {
                 'Content-Type': 'application/json'
@@ -347,6 +347,17 @@ const request = {
                 size:size,
                 page:page,
                 emp:emp,
+            }
+        })
+    },
+    // Employee批量删除员工
+    deleteEmployeeByIds(ids){
+        return instace({
+            method: 'post',
+            url: '/api/employee/basic/deleteEmpIds',
+            contentType: '"application/json"',
+            data: {
+                ids: ids,
             }
         })
     }
