@@ -233,14 +233,17 @@ class VhrServerApplicationTests {
 
     @Test
     void text17(){
-        Employee employee = new Employee();
-        employee.setPosId(29);
-        employee.setPoliticId(13);
-        employee.setNationId(1);
-        employee.setJobLevelId(9);
-        employee.setEngageForm("劳务合同");
-        employee.setDepartmentId(5);
-        EmpUtil employeeByPageAdvanch = employeeService.getEmployeeByPageAdvanch(10, 1, employee);
-        System.out.println(employeeByPageAdvanch);
+//        Employee employee = new Employee();
+//        employee.setPosId(29);
+//        employee.setPoliticId(13);
+//        employee.setNationId(1);
+//        employee.setJobLevelId(9);
+//        employee.setEngageForm("劳务合同");
+//        employee.setDepartmentId(5);
+//        EmpUtil employeeByPageAdvanch = employeeService.getEmployeeByPageAdvanch(10, 1, employee);
+//        System.out.println(employeeByPageAdvanch);
+        Integer[] integers = new Integer[]{3794,3795,3796,3707};
+        long l = employeeMapper.deleteEmployeeByIds(integers);
+        System.out.println(l);
     }
 }

@@ -23,8 +23,8 @@ public class EmployeeController {
 
     //高级搜索跟普通搜索共用
     @PostMapping("/")
-    public EmpUtil getAllEmp(@RequestParam(name = "size")Integer size,@RequestParam(name = "page")Integer page,@RequestParam(name = "keyword")String keyword) {
-        return employeeService.getEmployeeByPage(size,page,keyword);
+    public EmpUtil getAllEmp(@RequestParam(name = "size") Integer size, @RequestParam(name = "page") Integer page, @RequestParam(name = "keyword") String keyword) {
+        return employeeService.getEmployeeByPage(size, page, keyword);
     }
 
     // 添加员工
@@ -83,9 +83,23 @@ public class EmployeeController {
         return new StatusUtils("导入失败，请稍后再试！");
     }
 
-//    高级搜索
+    //    高级搜索
     @PostMapping("/Advanched")
-    public EmpUtil getEmpByPageAdvanched(@RequestBody EmpByPageUtil emp){
-        return employeeService.getEmployeeByPageAdvanch(emp.getSize(),emp.getPage(), emp.getEmp());
+    public EmpUtil getEmpByPageAdvanched(@RequestBody EmpByPageUtil emp) {
+        return employeeService.getEmployeeByPageAdvanch(emp.getSize(), emp.getPage(), emp.getEmp());
+    }
+
+    // 根据employee的id进行批量删除
+    @PostMapping("/deleteEmpIds")
+    public StatusUtils deleteEmployeeByIds(@RequestParam("ids") Integer[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            System.out.println(ids[i]);
+        }
+        Long aLong = employeeService.deleteEmployeeByIds(ids);
+        if (aLong > 0) {
+            return new StatusUtils("删除成功");
+        } else {
+            return new StatusUtils("删除失败");
+        }
     }
 }
