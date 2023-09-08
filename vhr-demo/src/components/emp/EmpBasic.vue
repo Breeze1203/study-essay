@@ -117,7 +117,7 @@
     </el-form>
   </div>
   <div style="margin-top: 14px">
-    <el-table v-loading="loading" border stripe style="width: 95%" size="small" :data="EmpTable">
+    <el-table v-loading="loading" @selection-change="SelectedIds" border stripe style="width: 95%" size="small" :data="EmpTable">
       <el-table-column type="selection" prop="id" fixed width="55"/>
       <el-table-column prop="name" label="姓名" width="100" align="center"/>
       <el-table-column prop="workId" label="工号" width="100" align="center"/>
@@ -152,7 +152,12 @@
       </el-table-column>
     </el-table>
   </div>
-  <div style="margin-top: 15px;display: flex;justify-content: end;width: 95%">
+  <div style=" display: flex;
+  justify-content: space-between">
+    <div style="margin-top: 15px;width: 15%">
+      <el-button @click="deleteIds" type="danger">批量删除</el-button>
+    </div>
+  <div style="margin-top: 15px;display: flex;justify-content: end;width: 85%">
     <el-pagination
         :page-sizes="[10, 20, 30, 40, 50]"
         layout="total, sizes, prev, pager, next, jumper"
@@ -160,6 +165,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
     />
+  </div>
   </div>
   <div>
     <el-dialog v-model="DialogVisible" :title="dialogTitle" width="75%">
@@ -379,7 +385,7 @@
         </el-row>
         <el-row style="margin-top: 35px;display: flex;justify-content: flex-end">
           <el-button @click="cancelAddWorker">取消</el-button>
-          <el-button type="primary" style="margin-left: 40px" :disabled="add" @click="sureAdd">确定</el-button>
+          <el-button type="primary" style="margin-left: 40px" @click="sureAdd">确定</el-button>
         </el-row>
       </el-form>
     </el-dialog>
@@ -412,6 +418,8 @@ export default {
       positions: [],
       jObLevels: [],
       departments: [],
+      // 批量删除员工的id使用
+      empIds:[],
       rules: {
         name: [{required: true, message: '请输入姓名', trigger: 'blur'}],
         idCard: [{
@@ -510,7 +518,6 @@ export default {
     },
     // 进行高级搜索
     SearchAdvanced() {
-      this.showSearch = true;
       request.getEmpByPageAdvanch(this.size, this.page, this.emp).then(resp => {
         if (resp.data.employeeList !== null) {
           this.EmpTable = resp.data.employeeList;
@@ -592,16 +599,46 @@ export default {
       })
     }
     ,
+    // 获取批量删除员工的id
+    SelectedIds(value){
+      // 因为之前选过，所以再次使用时将其变为一个空数组
+      this.empIds=[];
+      for (let i = 0; i < value.length; i++) {
+        this.empIds.push(value[i].id);
+      }
+    },
+    // 批量删除员工
+    deleteIds(){
+      if(this.empIds.length===0){
+        ElMessage.error("请选择要删除的员工");
+      }else {
+        request.deleteEmployeeByIds(this.empIds).then(resp=>{
+          if(resp.data.message==='删除成功'){
+            console.log("删除成功");
+            this.empIds=[];
+            this.initEmp();
+          }
+        })
+      }
+    },
     // size发生给改时
     handleSizeChange(number) {
       this.size = number;
-      this.initEmp();
+      if (this.showSearch === false) {
+        this.initEmp();
+      }else {
+        this.SearchAdvanced();
+      }
     }
     ,
     // page发生更改时
     handleCurrentChange(number) {
       this.page = number;
-      this.initEmp();
+      if (this.showSearch === false) {
+        this.initEmp();
+      }else {
+        this.SearchAdvanced();
+      }
     }
     ,
     // 根据用户名搜索用户
@@ -662,6 +699,7 @@ export default {
     }
     ,
     initEmp() {
+      console.log('-----');
       request.initAllEmp(this.page, this.size, this.EmpName).then(res => {
         if (res.data.employeeList !== null) {
           this.EmpTable = res.data.employeeList;
