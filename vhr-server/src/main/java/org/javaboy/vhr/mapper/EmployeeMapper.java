@@ -38,4 +38,7 @@ public interface EmployeeMapper {
     // 高级搜索查询总条数
     long getEmpCountAdvanch(@Param("emp") Employee employee);
 
+    // 根据employee的id进行批量删除
+    long deleteEmployeeByIds(@Param("ids")Integer[] ids);
+
 }
