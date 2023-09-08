@@ -262,7 +262,7 @@
             where name like CONCAT('%',#{keyword},'%')
         </if>
     </select>
-<!--    根据集合插入-->
+    <!--    根据集合插入-->
     <insert id="insertByList" parameterType="java.util.List">
         insert into employee(id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email,
         phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate,
@@ -275,7 +275,7 @@
             #{item.workId},#{item.contractTerm},#{item.conversionTime},#{item.notworkdate},#{item.beginContract},#{item.endContract},#{item.workAge})
         </foreach>
     </insert>
-<!--    高级搜索-->
+    <!--    高级搜索-->
     <select id="SelectEmpByPageAdvanced" resultMap="EmpInfo">
         select emp.*,
         n.id as nid,
@@ -323,7 +323,7 @@
             offset #{page}
         </if>
     </select>
-<!--高级搜索查询总条数-->
+    <!--高级搜索查询总条数-->
     <!-- 查询总条数-->
     <select id="getEmpCountAdvanch" resultType="long">
         select count(*) from employee emp where
@@ -347,4 +347,11 @@
             and emp.begindate > #{emp.beginDate}
         </if>
     </select>
+    <!--    Employee批量删除-->
+    <delete id="deleteEmployeeByIds">
+        delete from employee where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
