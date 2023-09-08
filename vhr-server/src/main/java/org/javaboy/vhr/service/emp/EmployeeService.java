@@ -134,4 +134,10 @@ public class EmployeeService {
         empUtil.setDepartments(departments);
         return empUtil;
     }
+
+    // 根据employee的id进行批量删除
+
+    public Long deleteEmployeeByIds(Integer[] ids){
+        return employeeMapper.deleteEmployeeByIds(ids);
+    }
 }
