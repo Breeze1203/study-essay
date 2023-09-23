@@ -9,14 +9,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Hello world!
- *
  */
 @SpringBootApplication
 @MapperScan(basePackages = "org.javaboy.vhr.mapper")
-public class VhrServerApplication
-{
-    public static void main( String[] args )
-    {
-        ConfigurableApplicationContext context = SpringApplication.run(VhrServerApplication.class, args);
+public class VhrServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(VhrServerApplication.class, args);
     }
 }

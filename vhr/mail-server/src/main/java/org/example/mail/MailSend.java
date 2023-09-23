@@ -1,5 +1,6 @@
 package org.example.mail;
 
+import org.example.bean.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -23,14 +24,13 @@ public class MailSend {
     public TemplateEngine templateEngine;
 
 
-    public void sentThymeleafHtml(User user){
-        System.out.println("send:"+user);
+    public void sentThymeleafHtml(Employee employee){
         Context context=new Context();
-        context.setVariable("name", user.getName());
-        context.setVariable("posName", user.getPosName());
-        context.setVariable("joblevelName", user.getJoblevelName());
-        context.setVariable("departmentName", user.getDepartmentName());
+        context.setVariable("name", employee.getName());
+        context.setVariable("posName", employee.getPosition().getName());
+        context.setVariable("joblevelName", employee.getjObLevel().getName());
+        context.setVariable("departmentName", employee.getDepartment().getName());
         String emailTemplate =this.templateEngine.process("emailTemplate", context);
-        mailService.sendHtmlMail(emailTemplate,user);
+        mailService.sendHtmlMail(emailTemplate,employee);
     }
 }

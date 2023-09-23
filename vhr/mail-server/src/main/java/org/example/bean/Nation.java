@@ -1,4 +1,4 @@
-package org.javaboy.vhr.bean;
+package org.example.bean;
 
 public class Nation {
     private Integer id;

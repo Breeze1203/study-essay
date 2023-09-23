@@ -2,11 +2,13 @@ package org.javaboy.vhr.controller.emp;
 
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.Employee;
+import org.javaboy.vhr.rocketmq.ProducerMailService;
 import org.javaboy.vhr.service.emp.EmployeeService;
 import org.javaboy.vhr.utils.EmpByPageUtil;
 import org.javaboy.vhr.utils.EmpUtil;
 import org.javaboy.vhr.utils.PoiUtil;
 import org.javaboy.vhr.utils.StatusUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employee/basic")
 public class EmployeeController {
+    // 依赖注入rocketmq
+    @Autowired
+    ProducerMailService producerMailService;
+
     @Resource(name = "EmployeeService")
     EmployeeService employeeService;
 
@@ -31,7 +37,13 @@ public class EmployeeController {
     @PostMapping("/addEmp")
     public StatusUtils addEmp(@RequestBody Employee employee) {
         Integer integer = employeeService.addEmployee(employee);
-        if (integer > 0) return new StatusUtils("添加成功");
+        System.out.println(employee);
+        if (integer > 0){
+            // 添加成功，跟该员工发送入职通知邮件
+            producerMailService.send(employeeService.selectEmpByWorkId(employee));
+            return new StatusUtils("添加成功");
+            // 添加成功，跟该员工发送入职通知邮件
+        }
         return new StatusUtils("添加失败，请稍后再试");
     }
 

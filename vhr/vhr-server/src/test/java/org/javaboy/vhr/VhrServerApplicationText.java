@@ -17,6 +17,6 @@ public class VhrServerApplicationText{
 
     @Test
     void contextLoads() {
-        producerMailService.send();
+//        producerMailService.send();
     }
 }

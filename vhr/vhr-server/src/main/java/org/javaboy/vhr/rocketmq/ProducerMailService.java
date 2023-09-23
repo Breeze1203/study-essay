@@ -1,5 +1,6 @@
 package org.javaboy.vhr.rocketmq;
 
+import org.javaboy.vhr.bean.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +17,7 @@ import org.springframework.stereotype.Component;
 public class ProducerMailService {
     @Autowired
     Producer producer;
-    public void send(){
-        User user = new User("彭涛", "研发工程师", "助教", "技术部");
-        producer.sendMessage(user);
+    public void send(Employee employee){
+        producer.sendMessage(employee);
     }
 }

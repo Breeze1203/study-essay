@@ -22,7 +22,7 @@ public class ConsumerConfiguration {
         consumer.setNamesrvAddr("192.168.3.54:9876");
         consumer.setConsumerGroup("mail-receive");
         try {
-            consumer.subscribe("jobMail", "*");
+            consumer.subscribe("OnboardingMail", "*");
         } catch (MQClientException e) {
             throw new RuntimeException(e);
         }

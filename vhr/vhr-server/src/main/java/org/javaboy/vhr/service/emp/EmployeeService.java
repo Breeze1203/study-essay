@@ -68,6 +68,11 @@ public class EmployeeService {
         return employeeMapper.insert(employee);
     }
 
+    // 根据workId查询所有信息
+    public Employee selectEmpByWorkId(Employee employee){
+        return employeeMapper.selectEmpByWorkId(employee.getWorkId());
+    }
+
     // 删除员工
     public Integer deleteEmp(Integer id) {
         return employeeMapper.deleteByPrimaryKey(id);

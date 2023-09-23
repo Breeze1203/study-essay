@@ -1,10 +1,11 @@
-package org.javaboy.vhr.bean;
+package org.example.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Employee {
+public class Employee{
     private Integer id;
 
     private String name;

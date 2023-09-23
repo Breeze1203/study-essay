@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
+import org.javaboy.vhr.bean.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,15 +25,15 @@ import java.io.UnsupportedEncodingException;
 public class Producer {
     @Autowired
     DefaultMQProducer defaultMQProducer;
-    public void sendMessage(User user) {
+    public void sendMessage(Employee employee) {
         try {
             defaultMQProducer.start();
         } catch (MQClientException e) {
             throw new RuntimeException(e);
         }
         try {
-            byte[] bytes = JSON.toJSONString(user).getBytes("utf-8");
-            Message message = new Message("jobMail", bytes);
+            byte[] bytes = JSON.toJSONString(employee).getBytes("utf-8");
+            Message message = new Message("OnboardingMail", bytes);
             defaultMQProducer.send(message);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);

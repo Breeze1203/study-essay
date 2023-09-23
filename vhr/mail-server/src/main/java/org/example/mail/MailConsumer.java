@@ -9,9 +9,11 @@ import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
 
+import org.example.bean.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -39,10 +41,10 @@ public class MailConsumer {
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
                 for (MessageExt m : list) {
                     String s = new String(m.getBody());
-                    User user = JSON.parseObject(s, User.class);
-                    mailSend.sentThymeleafHtml(user);
+                    Employee employee= JSON.parseObject(s, Employee.class);
+                    mailSend.sentThymeleafHtml(employee);
                 }
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });
         try {

@@ -40,5 +40,6 @@ public interface EmployeeMapper {
 
     // 根据employee的id进行批量删除
     long deleteEmployeeByIds(@Param("ids")Integer[] ids);
+    Employee selectEmpByWorkId(@Param(("workId"))String workID);
 
 }
