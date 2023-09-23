@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.javaboy.vhr.mapper.HrMapper">
+    <resultMap id="BaseResultMap" type="org.javaboy.vhr.bean.Hr">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="CHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="userface" property="userface" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="HrAndRole" type="org.javaboy.vhr.bean.Hr" extends="BaseResultMap">
+        <collection property="roles" ofType="org.javaboy.vhr.bean.Role">
+            <id column="rid" property="id"/>
+            <result column="nameZh" property="nameZh"/>
+            <result column="rname" property="name"/>
+        </collection>
+    </resultMap>
+    <select id="findHrByUsername" resultType="org.javaboy.vhr.bean.Hr" parameterType="String">
+        select *
+        from hr
+        where username = #{username}
+    </select>
+
+    <select id="getHrRolesById" resultType="org.javaboy.vhr.bean.Role">
+        select r.*
+        from role r,
+             hr_role hrr
+        where hrr.rid = r.id
+          and hrr.hrid = #{id}
+    </select>
+
+    <insert id="insertHr" parameterType="org.javaboy.vhr.bean.Hr">
+        insert into hr(id, name, phone, telephone, address, username, password)
+        values (#{id}, #{name}, #{phone}, #{telephone}, #{address}, #{username}, #{password})</insert>
+
+    <delete id="deleteById" parameterType="int">
+        delete
+        from hr
+        where id = #{id};
+    </delete>
+    <update id="updateHr" parameterType="string">
+        update hr
+        set username=#{username}
+        where id = 13
+    </update>
+    <select id="getAllHr" resultMap="HrAndRole">
+        SELECT hr.id,
+        hr.name,
+        hr.address,
+        hr.enabled,
+        hr.phone,
+        hr.telephone,
+        hr.userface,
+        hr.remark,
+        hr.username,
+        r.id as rid,
+        r.name as rname,
+        r.nameZh as nameZh
+        FROM hr
+        LEFT JOIN hr_role hrr ON hr.id = hrr.hrid
+        LEFT JOIN role r ON hrr.rid = r.id
+        <if test="keyword!=null">
+            where hr.name like CONCAT('%', #{keyword}, '%')
+        </if>;
+    </select>
+    <!--    模糊查询，当keyword不为空时，执行这个条件差选语句 concat时字符穿连接-->
+    <!--更改用户状态-->
+    <update id="updateEnable" parameterType="java.lang.Integer">
+        update hr
+        set enabled=#{enabled}
+        where id = #{id}
+    </update>
+</mapper>
