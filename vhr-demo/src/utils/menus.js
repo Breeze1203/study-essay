@@ -1,5 +1,7 @@
-
 // 此时参数routes是后端查询返回的路由参数
+import EmpAdv from '../components/emp/EmpBasic.vue'
+
+
 export const formatRoutes = (num) => {
     // 将转换好的对象存入该数组
     let rou = [];
@@ -17,10 +19,10 @@ export const formatRoutes = (num) => {
             meta: meta,
             iconCls: iconCls,
             children: children,
-            component: () => {
-                if (component.startsWith('Hom')) {
+            component: ()=>{
+                if (component.startsWith('Home')) {
                     return import('../components/' + component + '.vue');
-                } else if (component.startsWith('Emp')) {
+                }else if(component.startsWith('Emp')){
                     return import('../components/emp/' + component + '.vue');
                 } else if (component.startsWith('Per')) {
                     return import('../components/per/' + component + '.vue');
@@ -29,11 +31,24 @@ export const formatRoutes = (num) => {
                 } else if (component.startsWith('Sta')) {
                     return import('../components/sta/' + component + '.vue')
                 } else if (component.startsWith('Sys')) {
-                    return import('../components/sys/' + component + '.vue')
+                    return import('../components/sys/' + component + '.vue')}
                 }
-            }
         };
         rou.push(fmRouter);
     }
     return rou;
+}
+
+export const forRou = (num) => {
+    let R=[];
+    for(var i=0;i<num.length;i++){
+        delete num[i].name;
+        delete num[i].iconCls;
+        delete num[i].meta;
+        if(num[i].children instanceof Array){
+            forRou(num[i].children);
+        }
+        R.push(num[i]);
+    }
+    return R;
 }

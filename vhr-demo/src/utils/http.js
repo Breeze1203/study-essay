@@ -18,13 +18,13 @@ const errorHandle = (status, info) => {
             console.log("地址错误");
             break;
         case 500:
-            console.log("服务器遇到意外");
+            console.log("服务器遇到意外")
             break;
         case 502:
             console.log("服务器无响应");
             break;
         default:
-            console.log(info);
+            router.replace("/")
             break;
     }
 }
@@ -40,7 +40,7 @@ instace.interceptors.request.use(
     config => {
         // 对post方法参数进行处理
         if (config.method === 'post') {
-            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp') {
+            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp'&& config.url!=='/api/employee/basic/Advanched') {
                 config.data = querystring.stringify(config.data)
             }
         }
@@ -54,8 +54,9 @@ instace.interceptors.request.use(
 instace.interceptors.response.use(
     success => {
         if (success.data.status === 401) {
-            router.replace("/");
             ElMessage.error("请重新登录");
+            router.replace("/");
+            return ;
         }
         if (success.data.status === 500) {
             ElMessage.error('用户名或密码错误，请重新输入')

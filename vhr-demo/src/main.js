@@ -18,6 +18,10 @@ router.beforeEach((to, from, next) => {
     } else {
         if (store.state.routes.length === 0) {
             request.menuinit().then(resp => {
+                if (resp.data.length===0){
+                    router.replace("/");
+                    return;
+                }
                 var b = formatRoutes(resp.data);
                 // 将查询到的菜单数据存入store中
                 store.commit('menu', b);
@@ -26,7 +30,7 @@ router.beforeEach((to, from, next) => {
                 }
                 next({...to, replace: true});
             })
-        } else {
+        } else{
             next();
         }
     }

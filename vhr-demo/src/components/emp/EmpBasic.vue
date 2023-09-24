@@ -699,7 +699,6 @@ export default {
     }
     ,
     initEmp() {
-      console.log('-----');
       request.initAllEmp(this.page, this.size, this.EmpName).then(res => {
         if (res.data.employeeList !== null) {
           this.EmpTable = res.data.employeeList;

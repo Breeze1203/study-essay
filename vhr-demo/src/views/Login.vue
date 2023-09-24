@@ -59,7 +59,8 @@ export default {
                   router.addRoute(b[i])
                 }
               })
-              this.$router.push("/home");
+              // 在组件的方法中执行路由跳转
+              this.$router.push('/home');
             }
           })
         } else {
