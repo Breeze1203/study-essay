@@ -54,7 +54,7 @@ instace.interceptors.request.use(
 instace.interceptors.response.use(
     success => {
         if (success.data.status === 401) {
-            ElMessage.error("请重新登录");
+            ElMessage.error("服务器遇到意外，请稍后尝试");
             router.replace("/");
             return ;
         }
