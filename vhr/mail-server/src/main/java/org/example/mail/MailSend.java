@@ -18,10 +18,10 @@ import org.thymeleaf.context.Context;
 @Component
 public class MailSend {
     @Autowired
-    public MailService mailService;
+    MailService mailService;
 
     @Autowired
-    public TemplateEngine templateEngine;
+    TemplateEngine templateEngine;
 
 
     public void sentThymeleafHtml(Employee employee){

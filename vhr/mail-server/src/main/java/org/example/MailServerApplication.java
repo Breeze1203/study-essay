@@ -11,7 +11,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class MailServerApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(MailServerApplication.class, args);
-        MailConsumer consumer = context.getBean(MailConsumer.class);
-        consumer.receive();
+        context.getBean(MailConsumer.class).receive();
     }
 }

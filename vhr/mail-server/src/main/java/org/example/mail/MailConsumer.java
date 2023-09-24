@@ -27,8 +27,6 @@ import java.util.List;
  */
 @Component
 public class MailConsumer {
-    @Autowired
-    MailService mailService;
 
     @Autowired
     MailSend mailSend;
