@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 @Component
 public class Producer {
     @Autowired
-    DefaultMQProducer defaultMQProducer;
+    private DefaultMQProducer defaultMQProducer;
     public void sendMessage(Employee employee) {
         try {
             defaultMQProducer.start();

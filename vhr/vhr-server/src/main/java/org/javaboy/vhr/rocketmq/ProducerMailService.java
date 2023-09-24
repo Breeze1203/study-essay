@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProducerMailService {
     @Autowired
-    Producer producer;
+    private Producer producer;
     public void send(Employee employee){
         producer.sendMessage(employee);
     }

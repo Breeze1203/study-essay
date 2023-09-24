@@ -15,26 +15,11 @@ import java.util.List;
 public class SystemConfigController {
 
     @Autowired
-    HrMapper hrMapper;
-    @Autowired
     MenuService menuService;
 
     @PostMapping("/api/menu")
     public List<Menu> allMenu(){
-        System.out.println(menuService.getMenuByHrId());
         return menuService.getMenuByHrId();
     }
 
-    @PostMapping("/api/insert")
-    public void insert(){
-        Hr hr=new Hr();
-        hr.setPassword("$2a$10$oE39aG10kB/rFu2vQeCJTu/V/v4n6DRR0f8WyXRiAYvBpmadoOBE.");
-        hr.setId(13);
-        hr.setName("张三");
-        hr.setAddress("wqeqwerq");
-        hr.setPhone("13213214");
-        hr.setTelephone("121324234");
-        hr.setUsername("章程");
-        hrMapper.insertHr(hr);
-    }
 }
