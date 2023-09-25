@@ -5,31 +5,29 @@ import java.util.Date;
 public class Salary {
     private Integer id;
 
-    private Integer basicsalary;
+    private Integer basicSalary;
 
     private Integer bonus;
 
-    private Integer lunchsalary;
+    private Integer lunchSalary;
 
-    private Integer trafficsalary;
+    private Integer trafficSalary;
 
-    private Integer allsalary;
+    private Integer allSalary;
 
-    private Integer pensionbase;
+    private Integer pensionBase;
 
-    private Float pensionper;
+    private Float pensionPer;
 
-    private Date createdate;
+    private Date createDate;
 
-    private Integer medicalbase;
+    private Integer medicalBase;
 
-    private Float medicalper;
+    private Float medicalPer;
 
-    private Integer accumulationfundbase;
+    private Integer accumulationFundBase;
 
-    private Float accumulationfundper;
-
-    private String name;
+    private Float accumulationFundPer;
 
     public Integer getId() {
         return id;
@@ -39,12 +37,12 @@ public class Salary {
         this.id = id;
     }
 
-    public Integer getBasicsalary() {
-        return basicsalary;
+    public Integer getBasicSalary() {
+        return basicSalary;
     }
 
-    public void setBasicsalary(Integer basicsalary) {
-        this.basicsalary = basicsalary;
+    public void setBasicSalary(Integer basicSalary) {
+        this.basicSalary = basicSalary;
     }
 
     public Integer getBonus() {
@@ -55,84 +53,84 @@ public class Salary {
         this.bonus = bonus;
     }
 
-    public Integer getLunchsalary() {
-        return lunchsalary;
+    public Integer getLunchSalary() {
+        return lunchSalary;
     }
 
-    public void setLunchsalary(Integer lunchsalary) {
-        this.lunchsalary = lunchsalary;
+    public void setLunchSalary(Integer lunchSalary) {
+        this.lunchSalary = lunchSalary;
     }
 
-    public Integer getTrafficsalary() {
-        return trafficsalary;
+    public Integer getTrafficSalary() {
+        return trafficSalary;
     }
 
-    public void setTrafficsalary(Integer trafficsalary) {
-        this.trafficsalary = trafficsalary;
+    public void setTrafficSalary(Integer trafficSalary) {
+        this.trafficSalary = trafficSalary;
     }
 
-    public Integer getAllsalary() {
-        return allsalary;
+    public Integer getAllSalary() {
+        return allSalary;
     }
 
-    public void setAllsalary(Integer allsalary) {
-        this.allsalary = allsalary;
+    public void setAllSalary(Integer allSalary) {
+        this.allSalary = allSalary;
     }
 
-    public Integer getPensionbase() {
-        return pensionbase;
+    public Integer getPensionBase() {
+        return pensionBase;
     }
 
-    public void setPensionbase(Integer pensionbase) {
-        this.pensionbase = pensionbase;
+    public void setPensionBase(Integer pensionBase) {
+        this.pensionBase = pensionBase;
     }
 
-    public Float getPensionper() {
-        return pensionper;
+    public Float getPensionPer() {
+        return pensionPer;
     }
 
-    public void setPensionper(Float pensionper) {
-        this.pensionper = pensionper;
+    public void setPensionPer(Float pensionPer) {
+        this.pensionPer = pensionPer;
     }
 
-    public Date getCreatedate() {
-        return createdate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public Integer getMedicalbase() {
-        return medicalbase;
+    public Integer getMedicalBase() {
+        return medicalBase;
     }
 
-    public void setMedicalbase(Integer medicalbase) {
-        this.medicalbase = medicalbase;
+    public void setMedicalBase(Integer medicalBase) {
+        this.medicalBase = medicalBase;
     }
 
-    public Float getMedicalper() {
-        return medicalper;
+    public Float getMedicalPer() {
+        return medicalPer;
     }
 
-    public void setMedicalper(Float medicalper) {
-        this.medicalper = medicalper;
+    public void setMedicalPer(Float medicalPer) {
+        this.medicalPer = medicalPer;
     }
 
-    public Integer getAccumulationfundbase() {
-        return accumulationfundbase;
+    public Integer getAccumulationFundBase() {
+        return accumulationFundBase;
     }
 
-    public void setAccumulationfundbase(Integer accumulationfundbase) {
-        this.accumulationfundbase = accumulationfundbase;
+    public void setAccumulationFundBase(Integer accumulationFundBase) {
+        this.accumulationFundBase = accumulationFundBase;
     }
 
-    public Float getAccumulationfundper() {
-        return accumulationfundper;
+    public Float getAccumulationFundPer() {
+        return accumulationFundPer;
     }
 
-    public void setAccumulationfundper(Float accumulationfundper) {
-        this.accumulationfundper = accumulationfundper;
+    public void setAccumulationFundPer(Float accumulationFundPer) {
+        this.accumulationFundPer = accumulationFundPer;
     }
 
     public String getName() {
@@ -140,6 +138,28 @@ public class Salary {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
+    }
+
+    private String name;
+
+    @Override
+    public String toString() {
+        return "Salary{" +
+                "id=" + id +
+                ", basicSalary=" + basicSalary +
+                ", bonus=" + bonus +
+                ", lunchSalary=" + lunchSalary +
+                ", trafficSalary=" + trafficSalary +
+                ", allSalary=" + allSalary +
+                ", pensionBase=" + pensionBase +
+                ", pensionPer=" + pensionPer +
+                ", createDate=" + createDate +
+                ", medicalBase=" + medicalBase +
+                ", medicalPer=" + medicalPer +
+                ", accumulationFundBase=" + accumulationFundBase +
+                ", accumulationFundPer=" + accumulationFundPer +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
