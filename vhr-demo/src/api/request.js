@@ -360,8 +360,15 @@ const request = {
                 ids: ids,
             }
         })
+    },
+    // 工资套装账单表格数据初始化
+    initSalary() {
+        return instace({
+            method: 'get',
+            url: '/api/sal/sob/',
+            contentType: '"application/json"',
+        })
     }
-
 }
 
 export default request;
