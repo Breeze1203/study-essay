@@ -368,6 +368,14 @@ const request = {
             url: '/api/sal/sob/',
             contentType: '"application/json"',
         })
+    },
+    insertSalary(salary){
+        return instace({
+            method: 'post',
+            url: '/api/sal/sob/',
+            contentType: '"application/json"',
+            data:salary
+        })
     }
 }
 

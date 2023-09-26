@@ -40,7 +40,7 @@ instace.interceptors.request.use(
     config => {
         // 对post方法参数进行处理
         if (config.method === 'post') {
-            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp'&& config.url!=='/api/employee/basic/Advanched') {
+            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp'&& config.url!=='/api/employee/basic/Advanched'&& config.url!=='/api/sal/sob/') {
                 config.data = querystring.stringify(config.data)
             }
         }
