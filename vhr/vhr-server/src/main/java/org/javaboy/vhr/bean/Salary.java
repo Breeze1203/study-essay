@@ -23,11 +23,11 @@ public class Salary {
 
     private Integer medicalBase;
 
-    private Float medicalPer;
+    private double medicalPer;
 
     private Integer accumulationFundBase;
 
-    private Float accumulationFundPer;
+    private double accumulationFundPer;
 
     public Integer getId() {
         return id;
@@ -109,12 +109,16 @@ public class Salary {
         this.medicalBase = medicalBase;
     }
 
-    public Float getMedicalPer() {
+    public double getMedicalPer() {
         return medicalPer;
     }
 
-    public void setMedicalPer(Float medicalPer) {
+    public void setMedicalPer(double medicalPer) {
         this.medicalPer = medicalPer;
+    }
+
+    public void setAccumulationFundPer(double accumulationFundPer) {
+        this.accumulationFundPer = accumulationFundPer;
     }
 
     public Integer getAccumulationFundBase() {
@@ -125,7 +129,8 @@ public class Salary {
         this.accumulationFundBase = accumulationFundBase;
     }
 
-    public Float getAccumulationFundPer() {
+
+    public double getAccumulationFundPer() {
         return accumulationFundPer;
     }
 

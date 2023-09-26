@@ -24,9 +24,18 @@ public class VhrServerApplicationText{
 
     @Test
     void contextLoads() {
-        List<Salary> salaries = salaryMapper.selectAll();
-        for (Salary s:salaries) {
-            System.out.println(s.toString());
-        }
+        Salary salary = new Salary();
+        salary.setName("www");
+        salary.setAccumulationFundPer(0.8);
+        salary.setAllSalary(1);
+        salary.setBonus(2);
+        salary.setMedicalBase(2);
+        salary.setMedicalPer(0.8);
+        salary.setAccumulationFundBase(2);
+        salary.setAccumulationFundPer(3);
+        salary.setLunchSalary(3);
+        salary.setBasicSalary(3);
+        int i = salaryMapper.insertSelective(salary);
+        System.out.println(i);
     }
 }

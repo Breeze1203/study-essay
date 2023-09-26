@@ -3,9 +3,10 @@ package org.javaboy.vhr.controller.sal;
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.bean.Salary;
 import org.javaboy.vhr.service.sal.SalSobService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.javaboy.vhr.utils.StatusUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +24,19 @@ public class SalSObController {
     @Resource(name = "SalSobService")
     SalSobService salSobService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public List<Salary> getAllSal(){
         return salSobService.getAllSal();
+    }
+
+    @PostMapping("/")
+    public StatusUtils insertSal(@RequestBody Salary salary){
+        salary.setCreateDate(new Date());
+        int i = salSobService.insertSalary(salary);
+        if(i>0) {
+            return new StatusUtils("添加成功");
+        }else {
+            return new StatusUtils("添加失败,请稍后再试");
+        }
     }
 }

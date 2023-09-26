@@ -24,4 +24,8 @@ public class SalSobService {
     public List<Salary> getAllSal(){
         return salaryMapper.selectAll();
     }
+
+    public int insertSalary(Salary salary){
+        return salaryMapper.insertSelective(salary);
+    }
 }
