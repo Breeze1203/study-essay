@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.javaboy.vhr.mapper.SalaryMapper">
+    <resultMap id="BaseResultMap" type="org.javaboy.vhr.bean.Salary">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="basicSalary" property="basicSalary" jdbcType="INTEGER"/>
+        <result column="bonus" property="bonus" jdbcType="INTEGER"/>
+        <result column="lunchSalary" property="lunchSalary" jdbcType="INTEGER"/>
+        <result column="trafficSalary" property="trafficSalary" jdbcType="INTEGER"/>
+        <result column="allSalary" property="allSalary" jdbcType="INTEGER"/>
+        <result column="pensionBase" property="pensionBase" jdbcType="INTEGER"/>
+        <result column="pensionPer" property="pensionPer" jdbcType="REAL"/>
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="medicalBase" property="medicalBase" jdbcType="INTEGER"/>
+        <result column="medicalPer" property="medicalPer" jdbcType="REAL"/>
+        <result column="accumulationFundBase" property="accumulationFundBase" jdbcType="INTEGER"/>
+        <result column="accumulationFundPer" property="accumulationFundPer" jdbcType="REAL"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer,
+    createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from salary
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="org.javaboy.vhr.bean.Salary">
+        insert into salary(basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer,
+                           createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name)
+        VALUES (#{basicSalary,jdbcType=INTEGER},
+                #{bonus,jdbcType=INTEGER},
+                #{lunchSalary,jdbcType=INTEGER},
+                #{trafficSalary,jdbcType=INTEGER},
+                #{allSalary,jdbcType=INTEGER},
+                #{pensionBase,jdbcType=INTEGER},
+                #{pensionPer,jdbcType=REAL},
+                #{createDate,jdbcType=TIMESTAMP},
+                #{medicalBase,jdbcType=INTEGER},
+                #{pensionPer,jdbcType=REAL},
+                #{accumulationFundBase,jdbcType=INTEGER},
+                #{accumulationFundPer,jdbcType=REAL},
+                #{name,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from salary
+    </select>
+</mapper>

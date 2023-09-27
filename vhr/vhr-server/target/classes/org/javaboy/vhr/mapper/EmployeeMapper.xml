@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.javaboy.vhr.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="org.javaboy.vhr.bean.Employee">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="CHAR"/>
+        <result column="birthday" property="birthday" jdbcType="DATE"/>
+        <result column="idCard" property="idCard" jdbcType="CHAR"/>
+        <result column="wedlock" property="wedlock" jdbcType="CHAR"/>
+        <result column="nationId" property="nationId" jdbcType="INTEGER"/>
+        <result column="nativePlace" property="nativePlace" jdbcType="VARCHAR"/>
+        <result column="politicId" property="politicId" jdbcType="INTEGER"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="departmentId" property="departmentId" jdbcType="INTEGER"/>
+        <result column="jobLevelId" property="jobLevelId" jdbcType="INTEGER"/>
+        <result column="posId" property="posId" jdbcType="INTEGER"/>
+        <result column="engageForm" property="engageForm" jdbcType="VARCHAR"/>
+        <result column="tipTopdeGree" property="tipTopdeGree" jdbcType="CHAR"/>
+        <result column="specialty" property="specialty" jdbcType="VARCHAR"/>
+        <result column="school" property="school" jdbcType="VARCHAR"/>
+        <result column="beginDate" property="begindate" jdbcType="DATE"/>
+        <result column="workState" property="workState" jdbcType="CHAR"/>
+        <result column="workId" property="workId" jdbcType="CHAR"/>
+        <result column="contractTerm" property="contractTerm" jdbcType="DOUBLE"/>
+        <result column="conversionTime" property="conversionTime" jdbcType="DATE"/>
+        <result column="notWorkDate" property="notworkdate" jdbcType="DATE"/>
+        <result column="beginContract" property="beginContract" jdbcType="DATE"/>
+        <result column="endContract" property="endContract" jdbcType="DATE"/>
+        <result column="workAge" property="workAge" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--分页查询的基础(resultMap)-->
+    <resultMap id="EmpInfo" type="org.javaboy.vhr.bean.Employee" extends="BaseResultMap">
+        <association property="nation" javaType="org.javaboy.vhr.bean.Nation">
+            <id property="id" column="nid"/>
+            <result property="name" column="nname"/>
+        </association>
+        <association property="politicsstatus" javaType="org.javaboy.vhr.bean.Politicsstatus">
+            <id property="id" column="pid"/>
+            <result property="name" column="pname"/>
+        </association>
+        <association property="position" javaType="org.javaboy.vhr.bean.Position">
+            <id property="id" column="posId"/>
+            <id property="name" column="posName"/>
+        </association>
+        <association property="department" javaType="org.javaboy.vhr.bean.Department">
+            <id property="id" column="did"/>
+            <id property="name" column="dname"/>
+        </association>
+        <association property="jObLevel" javaType="org.javaboy.vhr.bean.JObLevel">
+            <id property="id" column="jid"/>
+            <id property="name" column="jname"/>
+        </association>
+    </resultMap>
+    <select id="SelectEmpByPage" resultMap="EmpInfo">
+        select emp.*,
+        n.id as nid,
+        n.name as nname,
+        p.id as pid,
+        p.name as pname,
+        d.id as did,
+        d.name as dname,
+        j.id as jid,
+        j.name as jname,
+        pos.id as posId,
+        pos.name as posName
+        from employee emp,
+        nation n,
+        politicsstatus p,
+        department d,
+        joblevel j,
+        position pos
+        where emp.nationId = n.id
+        and emp.politicId = p.id
+        and emp.departmentId = d.id
+        and emp.jobLevelId = j.id
+        and emp.posId = pos.id
+        <if test="keyword !=null and keyword !=''">
+            and emp.name like CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="size!=null and page !=null">
+            limit #{size}
+            offset #{page}
+        </if>
+    </select>
+    <sql id="Base_Column_List">
+        id
+        , name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, 
+    phone, address, departmentId, jobLevelId, posId, engageForm, tipTopdeGree, specialty, 
+    school, beginDate, workState, workId, contractTerm, conversionTime, notWorkDate, 
+    beginContract, endContract, workAge
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from employee
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.javaboy.vhr.bean.Employee">
+        insert into employee (id, name, gender,
+                              birthday, idCard, wedlock, nationId,
+                              nativePlace, politicId, email,
+                              phone, address, departmentId,
+                              jobLevelId, posId, engageForm,
+                              tipTopdeGree, specialty, school,
+                              beginDate, workState, workId,
+                              contractTerm, conversionTime, notWorkDate,
+                              beginContract, endContract, workAge)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR},
+                #{birthday,jdbcType=DATE}, #{idCard,jdbcType=CHAR}, #{wedlock,jdbcType=CHAR},
+                #{nationId,jdbcType=INTEGER},
+                #{nativePlace,jdbcType=VARCHAR}, #{politicId,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
+                #{jobLevelId,jdbcType=INTEGER}, #{posId,jdbcType=INTEGER}, #{engageForm,jdbcType=VARCHAR},
+                #{tipTopdeGree,jdbcType=CHAR}, #{specialty,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR},
+                #{begindate,jdbcType=DATE}, #{workState,jdbcType=CHAR}, #{workId,jdbcType=CHAR},
+                #{contractTerm,jdbcType=DOUBLE}, #{conversionTime,jdbcType=DATE}, #{notworkdate,jdbcType=DATE},
+                #{beginContract,jdbcType=DATE}, #{endContract,jdbcType=DATE}, #{workAge,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="org.javaboy.vhr.bean.Employee">
+        insert into employee (id, name, gender,
+        birthday, idCard, wedlock, nationId,
+        nativePlace, politicId, email,
+        phone, address, departmentId,
+        jobLevelId, posId, engageForm,
+        tipTopdeGree, specialty, school,
+        beginDate, workState, workId,
+        contractTerm, conversionTime, notWorkDate,
+        beginContract, endContract, workAge) values
+        (#{id,jdbcType=INTEGER},
+        <if test="name != null and name != ''">
+            #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="gender != null and gender != ''">
+            #{gender,jdbcType=CHAR},
+        </if>
+        <if test="birthday != null">
+            #{birthday,jdbcType=DATE},
+        </if>
+        <if test="idCard != null and idCard != ''">
+            #{idCard,jdbcType=CHAR},
+        </if>
+        <if test="wedlock != null and wedlock != ''">
+            #{wedlock,jdbcType=CHAR},
+        </if>
+        <if test="nationId != null and nationId != ''">
+            #{nationId,jdbcType=INTEGER},
+        </if>
+        <if test="nativePlace != null and nativePlace != ''">
+            #{nativePlace,jdbcType=VARCHAR},
+        </if>
+        <if test="politicId != null and politicId != ''">
+            #{politicId,jdbcType=INTEGER},
+        </if>
+        <if test="email != null and email != ''">
+            #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null and phone != ''">
+            #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="address != null and address != ''">
+            #{address,jdbcType=VARCHAR},
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+            #{departmentId,jdbcType=INTEGER},
+        </if>
+        <if test="jobLevelId != null and jobLevelId != ''">
+            #{jobLevelId,jdbcType=INTEGER},
+        </if>
+        <if test="posId != null and posId != ''">
+            #{posId,jdbcType=INTEGER},
+        </if>
+        <if test="engageForm != null and engageForm != ''">
+            #{engageForm,jdbcType=VARCHAR},
+        </if>
+        <if test="tipTopdeGree != null and tipTopdeGree != ''">
+            #{tipTopdeGree,jdbcType=CHAR},
+        </if>
+        <if test="specialty != null and specialty != ''">
+            #{specialty,jdbcType=VARCHAR},
+        </if>
+        <if test="school != null and school != ''">
+            #{school,jdbcType=VARCHAR},
+        </if>
+        <if test="begindate != null">
+            #{begindate,jdbcType=DATE},
+        </if>
+        <if test="workState != null and workState != ''">
+            #{workState,jdbcType=CHAR},
+        </if>
+        <if test="workId != null and workId != ''">
+            #{workId,jdbcType=CHAR},
+        </if>
+        <if test="contractTerm != null">
+            #{contractTerm,jdbcType=DOUBLE},
+        </if>
+        <if test="conversionTime != null">
+            #{conversionTime,jdbcType=DATE},
+        </if>
+        <if test="notworkdate != null">
+            #{notworkdate,jdbcType=DATE},
+        </if>
+        <if test="beginContract != null">
+            #{beginContract,jdbcType=DATE},
+        </if>
+        <if test="endContract != null">
+            #{conversionTime,jdbcType=DATE},
+        </if>
+        <if test="workAge != null">
+            #{workAge,jdbcType=INTEGER}
+        </if>
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.javaboy.vhr.bean.Employee">
+        update employee
+        set name           = #{name,jdbcType=VARCHAR},
+            gender         = #{gender,jdbcType=CHAR},
+            birthday       = #{birthday,jdbcType=DATE},
+            idCard         = #{idCard,jdbcType=CHAR},
+            wedlock        = #{wedlock,jdbcType=CHAR},
+            nationId       = #{nationId,jdbcType=INTEGER},
+            nativePlace    = #{nativePlace,jdbcType=VARCHAR},
+            politicId      = #{politicId,jdbcType=INTEGER},
+            email          = #{email,jdbcType=VARCHAR},
+            phone          = #{phone,jdbcType=VARCHAR},
+            address        = #{address,jdbcType=VARCHAR},
+            departmentId   = #{departmentId,jdbcType=INTEGER},
+            jobLevelId     = #{jobLevelId,jdbcType=INTEGER},
+            posId          = #{posId,jdbcType=INTEGER},
+            engageForm     = #{engageForm,jdbcType=VARCHAR},
+            tipTopdeGree   = #{tipTopdeGree,jdbcType=CHAR},
+            specialty      = #{specialty,jdbcType=VARCHAR},
+            school         = #{school,jdbcType=VARCHAR},
+            beginDate      = #{begindate,jdbcType=DATE},
+            workState      = #{workState,jdbcType=CHAR},
+            workId         = #{workId,jdbcType=CHAR},
+            contractTerm   = #{contractTerm,jdbcType=DOUBLE},
+            conversionTime = #{conversionTime,jdbcType=DATE},
+            notWorkDate    = #{notworkdate,jdbcType=DATE},
+            beginContract  = #{beginContract,jdbcType=DATE},
+            endContract    = #{endContract,jdbcType=DATE},
+            workAge        = #{workAge,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--根据部门的parentId查找员工-->
+    <select id="findWorkerByDepartmentId" parameterType="java.lang.Integer" resultType="org.javaboy.vhr.bean.Employee">
+        select *
+        from employee
+        where departmentId = #{departmentId}
+    </select>
+    <!-- 查询总条数-->
+    <select id="getEmpCount" resultType="long">
+        select count(*) from employee
+        <if test="keyword!=null and keyword!=''">
+            where name like CONCAT('%',#{keyword},'%')
+        </if>
+    </select>
+    <!--    根据集合插入-->
+    <insert id="insertByList" parameterType="java.util.List">
+        insert into employee(id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email,
+        phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate,
+        workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.name},#{item.gender},#{item.birthday},#{item.idCard},#{item.wedlock},#{item.nationId},#{item.nativePlace},#{item.politicId},
+            #{item.email},#{item.phone},#{item.address},#{item.departmentId},#{item.jobLevelId},#{item.posId},
+            #{item.engageForm},#{item.tipTopdeGree},#{item.specialty},#{item.school},#{item.begindate},#{item.workState},
+            #{item.workId},#{item.contractTerm},#{item.conversionTime},#{item.notworkdate},#{item.beginContract},#{item.endContract},#{item.workAge})
+        </foreach>
+    </insert>
+    <!--    高级搜索-->
+    <select id="SelectEmpByPageAdvanced" resultMap="EmpInfo">
+        select emp.*,
+        n.id as nid,
+        n.name as nname,
+        p.id as pid,
+        p.name as pname,
+        d.id as did,
+        d.name as dname,
+        j.id as jid,
+        j.name as jname,
+        pos.id as posId,
+        pos.name as posName
+        from employee emp,
+        nation n,
+        politicsstatus p,
+        department d,
+        joblevel j,
+        position pos
+        where emp.nationId = n.id
+        and emp.politicId = p.id
+        and emp.departmentId = d.id
+        and emp.jobLevelId = j.id
+        and emp.posId = pos.id
+        <if test="emp.departmentId!=null">
+            and emp.departmentId=#{emp.departmentId}
+        </if>
+        <if test="emp.engageForm!=null">
+            and emp.engageForm=#{emp.engageForm}
+        </if>
+        <if test="emp.jobLevelId">
+            and emp.jobLevelId=#{emp.jobLevelId}
+        </if>
+        <if test="emp.nationId!=null">
+            and emp.nationId=#{emp.nationId}
+        </if>
+
+        <if test="emp.posId!=null">
+            and emp.posId=#{emp.posId}
+        </if>
+        <if test="emp.beginDate!=null">
+            and emp.begindate > #{emp.beginDate}
+        </if>
+        <if test="size!=null and page !=null">
+            limit #{size}
+            offset #{page}
+        </if>
+    </select>
+    <!--高级搜索查询总条数-->
+    <!-- 查询总条数-->
+    <select id="getEmpCountAdvanch" resultType="long">
+        select count(*) from employee emp where
+        <if test="emp.departmentId!=null">
+            emp.departmentId=#{emp.departmentId}
+        </if>
+        <if test="emp.engageForm!=null">
+            and emp.engageForm=#{emp.engageForm}
+        </if>
+        <if test="emp.jobLevelId">
+            and emp.jobLevelId=#{emp.jobLevelId}
+        </if>
+        <if test="emp.nationId!=null">
+            and emp.nationId=#{emp.nationId}
+        </if>
+
+        <if test="emp.posId!=null">
+            and emp.posId=#{emp.posId}
+        </if>
+        <if test="emp.beginDate!=null">
+            and emp.begindate > #{emp.beginDate}
+        </if>
+    </select>
+    <!--    Employee批量删除-->
+    <delete id="deleteEmployeeByIds">
+        delete from employee where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+<!--    根据workId查询员工-->
+    <select id="selectEmpByWorkId" resultMap="EmpInfo">
+        select emp.*,
+               n.id     as nid,
+               n.name   as nname,
+               p.id     as pid,
+               p.name   as pname,
+               d.id     as did,
+               d.name   as dname,
+               j.id     as jid,
+               j.name   as jname,
+               pos.id   as posId,
+               pos.name as posName
+        from employee emp,
+             nation n,
+             politicsstatus p,
+             department d,
+             joblevel j,
+             position pos
+        where emp.nationId = n.id
+          and emp.politicId = p.id
+          and emp.departmentId = d.id
+          and emp.jobLevelId = j.id
+          and emp.posId = pos.id
+          and emp.workId = #{workId}
+    </select>
+</mapper>
