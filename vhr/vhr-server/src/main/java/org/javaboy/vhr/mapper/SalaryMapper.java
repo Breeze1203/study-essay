@@ -1,5 +1,6 @@
 package org.javaboy.vhr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.javaboy.vhr.bean.Salary;
 import org.springframework.stereotype.Repository;
 
@@ -11,12 +12,12 @@ public interface SalaryMapper {
 
     int insertSelective(Salary record);
 
-    Salary selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Salary record);
-
-    int updateByPrimaryKey(Salary record);
-
     // 查询所有工资套帐
     List<Salary> selectAll();
+
+    //修改salary
+    int updateSal(Salary salary);
+
+    // 根据名字查询套账
+    List<Salary> getSalByName(@Param("name") String name);
 }

@@ -48,4 +48,27 @@
         <include refid="Base_Column_List"/>
         from salary
     </select>
+<!--    根据id修改-->
+    <update id="updateSal" parameterType="org.javaboy.vhr.bean.Salary">
+        update salary
+        set basicSalary=#{basicSalary,jdbcType=INTEGER},
+            bonus=#{bonus,jdbcType=INTEGER},
+            lunchSalary=#{lunchSalary,jdbcType=INTEGER},
+            trafficSalary=#{trafficSalary,jdbcType=INTEGER},
+            allSalary=#{allSalary,jdbcType=INTEGER},
+            pensionBase= #{pensionBase,jdbcType=INTEGER},
+            pensionPer=#{pensionPer,jdbcType=REAL},
+            createDate=#{createDate,jdbcType=TIMESTAMP},
+            medicalBase=#{medicalBase,jdbcType=INTEGER},
+            medicalPer=#{pensionPer,jdbcType=REAL},
+            accumulationFundBase=#{accumulationFundBase,jdbcType=INTEGER},
+            accumulationFundPer=#{accumulationFundPer,jdbcType=REAL},
+            name=#{name,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getSalByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from salary where name like CONCAT('%',#{name},'%')
+    </select>
 </mapper>

@@ -18,16 +18,9 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id
-        , basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer,
+        id, basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer,
     createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name
     </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from salary
-        where id = #{id,jdbcType=INTEGER}
-    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from salary
@@ -44,77 +37,38 @@
                 #{pensionBase,jdbcType=INTEGER},
                 #{pensionPer,jdbcType=REAL},
                 #{createDate,jdbcType=TIMESTAMP},
-                #{pensionPer,jdbcType=REAL},
                 #{medicalBase,jdbcType=INTEGER},
+                #{pensionPer,jdbcType=REAL},
                 #{accumulationFundBase,jdbcType=INTEGER},
                 #{accumulationFundPer,jdbcType=REAL},
                 #{name,jdbcType=VARCHAR})
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="org.javaboy.vhr.bean.Salary">
-        update salary
-        <set>
-            <if test="basicSalary != null">
-                basicSalary = #{basicSalary,jdbcType=INTEGER},
-            </if>
-            <if test="bonus != null">
-                bonus = #{bonus,jdbcType=INTEGER},
-            </if>
-            <if test="lunchSalary != null">
-                lunchSalary = #{lunchSalary,jdbcType=INTEGER},
-            </if>
-            <if test="trafficSalary != null">
-                trafficSalary = #{trafficSalary,jdbcType=INTEGER},
-            </if>
-            <if test="allSalary != null">
-                allSalary = #{allSalary,jdbcType=INTEGER},
-            </if>
-            <if test="pensionBase != null">
-                pensionBase = #{pensionBase,jdbcType=INTEGER},
-            </if>
-            <if test="pensionPer != null">
-                pensionPer = #{pensionPer,jdbcType=REAL},
-            </if>
-            <if test="createDate != null">
-                createDate = #{createDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="medicalBase != null">
-                medicalBase = #{medicalBase,jdbcType=INTEGER},
-            </if>
-            <if test="medicalPer != null">
-                medicalPer = #{medicalPer,jdbcType=REAL},
-            </if>
-            <if test="accumulationFundBase != null">
-                accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
-            </if>
-            <if test="accumulationFundPer != null">
-                accumulationFundPer = #{accumulationFundPer,jdbcType=REAL},
-            </if>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="org.javaboy.vhr.bean.Salary">
-        update salary
-        set basicSalary          = #{basicSalary,jdbcType=INTEGER},
-            bonus                = #{bonus,jdbcType=INTEGER},
-            lunchSalary          = #{lunchSalary,jdbcType=INTEGER},
-            trafficSalary        = #{trafficSalary,jdbcType=INTEGER},
-            allSalary            = #{allSalary,jdbcType=INTEGER},
-            pensionBase          = #{pensionBase,jdbcType=INTEGER},
-            pensionPer           = #{pensionPer,jdbcType=REAL},
-            createDate           = #{createDate,jdbcType=TIMESTAMP},
-            medicalBase          = #{medicalBase,jdbcType=INTEGER},
-            medicalPer           = #{medicalPer,jdbcType=REAL},
-            accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
-            accumulationFundPer  = #{accumulationFundPer,jdbcType=REAL},
-            name                 = #{name,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from salary
+    </select>
+<!--    根据id修改-->
+    <update id="updateSal" parameterType="org.javaboy.vhr.bean.Salary">
+        update salary
+        set basicSalary=#{basicSalary,jdbcType=INTEGER},
+            bonus=#{bonus,jdbcType=INTEGER},
+            lunchSalary=#{lunchSalary,jdbcType=INTEGER},
+            trafficSalary=#{trafficSalary,jdbcType=INTEGER},
+            allSalary=#{allSalary,jdbcType=INTEGER},
+            pensionBase= #{pensionBase,jdbcType=INTEGER},
+            pensionPer=#{pensionPer,jdbcType=REAL},
+            createDate=#{createDate,jdbcType=TIMESTAMP},
+            medicalBase=#{medicalBase,jdbcType=INTEGER},
+            medicalPer=#{pensionPer,jdbcType=REAL},
+            accumulationFundBase=#{accumulationFundBase,jdbcType=INTEGER},
+            accumulationFundPer=#{accumulationFundPer,jdbcType=REAL},
+            name=#{name,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getSalByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from salary where name like CONCAT('%',#{name},'%')
     </select>
 </mapper>

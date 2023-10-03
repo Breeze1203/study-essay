@@ -39,4 +39,27 @@ public class SalSObController {
             return new StatusUtils("添加失败,请稍后再试");
         }
     }
+    @PostMapping("/deleteById")
+    public StatusUtils deleteSalById(@RequestParam("id") Integer id){
+        int i = salSobService.deleteByPrimaryKey(id);
+        if(i>0) {
+            return new StatusUtils("删除成功");
+        }else {
+            return new StatusUtils("删除失败,请稍后再试");
+        }
+    }
+    @PostMapping("/updateSalary")
+    public StatusUtils updateSalary(@RequestBody Salary salary){
+        int i = salSobService.updateSal(salary);
+        if(i>0) {
+            return new StatusUtils("修改成功");
+        }else{
+            return new StatusUtils("修改失败，请稍候重试");
+        }
+    }
+
+    @GetMapping("/SearchSalByName")
+    public List<Salary> getSAlByName(@RequestParam("name")String name){
+        return salSobService.getSalByName(name);
+    }
 }

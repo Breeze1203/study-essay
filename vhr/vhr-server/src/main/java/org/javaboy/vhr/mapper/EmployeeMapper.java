@@ -41,5 +41,10 @@ public interface EmployeeMapper {
     // 根据employee的id进行批量删除
     long deleteEmployeeByIds(@Param("ids")Integer[] ids);
     Employee selectEmpByWorkId(@Param(("workId"))String workID);
+    // 员工套账搜素
+    List<Employee> selectEmpWithSalary(@Param("size") Integer size, @Param("page") Integer page);
+    // 查询总条数
+    long getCount();
+
 
 }

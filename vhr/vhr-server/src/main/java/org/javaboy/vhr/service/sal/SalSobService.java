@@ -28,4 +28,17 @@ public class SalSobService {
     public int insertSalary(Salary salary){
         return salaryMapper.insertSelective(salary);
     }
+
+    // 根据id删除salary
+    public int deleteByPrimaryKey(Integer id){
+        return salaryMapper.deleteByPrimaryKey(id);
+    }
+
+    public int updateSal(Salary salary){
+        return salaryMapper.updateSal(salary);
+    }
+
+    public List<Salary> getSalByName(String name){
+        return salaryMapper.getSalByName(name);
+    }
 }

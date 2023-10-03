@@ -43,15 +43,33 @@
         </association>
         <association property="position" javaType="org.javaboy.vhr.bean.Position">
             <id property="id" column="posId"/>
-            <id property="name" column="posName"/>
+            <result property="name" column="posName"/>
         </association>
         <association property="department" javaType="org.javaboy.vhr.bean.Department">
             <id property="id" column="did"/>
-            <id property="name" column="dname"/>
+            <result property="name" column="dname"/>
         </association>
         <association property="jObLevel" javaType="org.javaboy.vhr.bean.JObLevel">
             <id property="id" column="jid"/>
-            <id property="name" column="jname"/>
+            <result property="name" column="jname"/>
+        </association>
+    </resultMap>
+    <resultMap id="EmpWithSalary" type="org.javaboy.vhr.bean.Employee" extends="EmpInfo">
+        <association property="salary" javaType="org.javaboy.vhr.bean.Salary">
+        <id property="id" column="salId"/>
+        <result property="name" column="salName"/>
+        <result property="basicSalary" column="salBasicSalary"/>
+        <result property="allSalary" column="salAllSalary"/>
+        <result property="lunchSalary" column="salLunchSalary"/>
+        <result property="bonus" column="salBonus"/>
+        <result property="trafficSalary" column="salTrafficcSalary"/>
+        <result property="pensionBase" column="salPensionBase"/>
+        <result property="pensionPer" column="salPensionPer"/>
+        <result property="medicalBase" column="salMedicalBase"/>
+        <result property="medicalPer" column="salMedicalPer"/>
+        <result property="createDate" column="salCreateDate"/>
+        <result property="accumulationFundBase" column="salAccumulationFundBase"/>
+        <result property="accumulationFundPer" column="salAccumulationFundPer"/>
         </association>
     </resultMap>
     <select id="SelectEmpByPage" resultMap="EmpInfo">
@@ -379,5 +397,48 @@
           and emp.jobLevelId = j.id
           and emp.posId = pos.id
           and emp.workId = #{workId}
+    </select>
+<!--    员工套账的资料-->
+    <select id="selectEmpWithSalary" resultMap="EmpWithSalary">
+        select emp.*,
+        d.id as did,
+        d.name as dname,
+        p.id as posId,
+        p.name as posName,
+        n.id as nid,
+        n.name as nname,
+        j.id as jid,
+        j.name as Jname,
+        po.id as pid,
+        po.id as pname,
+        sal.id as salId,
+        sal.name as salName,
+        sal.basicSalary as salBasicSalary,
+        sal.allSalary as salAllSalary,
+        sal.lunchSalary as salLunchSalary,
+        sal.bonus as salBonus,
+        sal.trafficSalary as salTrafficcSalary,
+        sal.pensionBase as salPensionBase,
+        sal.pensionPer as salPensionPer,
+        sal.medicalBase as salMedicalBase,
+        sal.medicalPer as salMedicalPer,
+        sal.createDate as salCreateDate,
+        sal.accumulationFundBase as salAccumulationFundBase,
+        sal.accumulationFundPer as salAccumulationFundPer
+        from employee emp
+        left join empsalary es on emp.id = es.eid
+        left join salary sal on es.sid = sal.id
+        left join department d on emp.departmentId = d.id
+        left join position p on emp.posId = p.id
+        left join nation n on emp.nationId = n.id
+        left join joblevel j on emp.jobLevelId = j.id
+        left join politicsstatus po on emp.politicId = po.id
+        <if test="size!=null and page !=null">
+            limit #{size}
+            offset #{page}
+        </if>
+    </select>
+    <select id="getCount" resultType="long">
+        select count(*) from employee
     </select>
 </mapper>

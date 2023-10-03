@@ -77,6 +77,16 @@ public class Employee {
 
     private JObLevel jObLevel;
 
+    private Salary salary;
+
+    public Salary getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -379,6 +389,7 @@ public class Employee {
                 ", position=" + position +
                 ", department=" + department +
                 ", jObLevel=" + jObLevel +
+                ", salary=" + salary +
                 '}';
     }
 }
