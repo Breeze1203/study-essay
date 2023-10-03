@@ -38,9 +38,22 @@ const instace = axios.create({
 // 拦截器(发送请求之前)
 instace.interceptors.request.use(
     config => {
+        let array = ['/api/employee/basic/addEmp',
+            '/api/employee/basic/updateEmp',
+            '/api/employee/basic/Advanched',
+            '/api/sal/sob/',
+            '/api/sal/sob/updateSalary'];
+        let equal = true;
         // 对post方法参数进行处理
         if (config.method === 'post') {
-            if (config.url !== '/api/employee/basic/addEmp' && config.url !== '/api/employee/basic/updateEmp'&& config.url!=='/api/employee/basic/Advanched'&& config.url!=='/api/sal/sob/') {
+            for (let i = 0; i < array.length; i++) {
+                // 如果访问的路径不属于数组上面路径，就处理请求参数
+                if (config.url === array[i]) {
+                    equal = false;
+                    break;
+                }
+            }
+            if (equal) {
                 config.data = querystring.stringify(config.data)
             }
         }
@@ -56,7 +69,7 @@ instace.interceptors.response.use(
         if (success.data.status === 401) {
             ElMessage.error("服务器遇到意外，请稍后尝试");
             router.replace("/");
-            return ;
+            return;
         }
         if (success.data.status === 500) {
             ElMessage.error('用户名或密码错误，请重新输入')

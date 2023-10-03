@@ -376,6 +376,48 @@ const request = {
             contentType: '"application/json"',
             data:salary
         })
+    },
+    deleteSal(id){
+        return instace({
+            method: 'post',
+            url: '/api/sal/sob/deleteById',
+            contentType: '"application/json"',
+            data: {
+                id:id
+            }
+        })
+    },
+    // 修改salary
+    updateSal(salary){
+        return instace({
+            method: 'post',
+            url: '/api/sal/sob/updateSalary',
+            contentType: '"application/json"',
+            data:salary
+        })
+    },
+//     根据名称搜索工资套账
+    searchSalByName(name){
+        return instace({
+            method: 'get',
+            url: '/api/sal/sob/SearchSalByName',
+            contentType: '"application/json"',
+            params: {
+                name:name
+            }
+        })
+    },
+    // 员工工资套账数据初始化
+    initEmpWithSalary(size,page) {
+        return instace({
+            method: 'get',
+            url: '/api/salary/sob/',
+            contentType: '"application/json"',
+            params: {
+                size:size,
+                page:page
+            }
+        })
     }
 }
 
