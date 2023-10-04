@@ -410,7 +410,7 @@
         j.id as jid,
         j.name as Jname,
         po.id as pid,
-        po.id as pname,
+        po.name as pname,
         sal.id as salId,
         sal.name as salName,
         sal.basicSalary as salBasicSalary,
