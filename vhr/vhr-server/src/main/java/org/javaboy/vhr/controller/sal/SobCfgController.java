@@ -1,12 +1,10 @@
-package org.javaboy.vhr.controller.emp;
+package org.javaboy.vhr.controller.sal;
 
 import jakarta.annotation.Resource;
 import org.javaboy.vhr.service.sal.SobCfgService;
 import org.javaboy.vhr.utils.EmpUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.javaboy.vhr.utils.StatusUtils;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @projectName: vhr
@@ -25,5 +23,26 @@ public class SobCfgController {
     @GetMapping("/")
     public EmpUtil getAllSalary(@RequestParam("size") Integer size, @RequestParam("page")Integer page){
         return sobCfgService.getEpmWithSalary(size,page);
+    }
+
+    // 根据eid修改sid
+    @PostMapping("/updateSalSid")
+    public StatusUtils updateSal(@RequestParam("sid") Integer sid, @RequestParam("eid") Integer eid){
+        Integer result = sobCfgService.updateSidByEid(sid, eid);
+        if(result>0){
+            return  new StatusUtils("修改成功");
+        }else {
+            return new StatusUtils("修改失败,请稍后重试");
+        }
+    }
+    // 根据eid插入sid
+    @PostMapping("/insertSid")
+    public StatusUtils insertSid(@RequestParam("sid") Integer sid, @RequestParam("eid") Integer eid){
+        Integer result = sobCfgService.insetSidByEid(sid,eid);
+        if(result>0){
+            return  new StatusUtils("添加成功");
+        }else {
+            return new StatusUtils("添加失败,请稍后重试");
+        }
     }
 }

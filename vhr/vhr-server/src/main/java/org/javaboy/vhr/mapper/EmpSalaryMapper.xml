@@ -9,61 +9,18 @@
   <sql id="Base_Column_List" >
     id, eid, sid
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from empsalary
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from empsalary
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="org.javaboy.vhr.bean.EmpSalary" >
-    insert into empsalary (id, eid, sid)
-    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="org.javaboy.vhr.bean.EmpSalary" >
+<!--  根据员工id设置套账名称-->
+  <insert id="insertSalByEid" parameterType="org.javaboy.vhr.bean.EmpSalary" >
     insert into empsalary
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="eid != null" >
-        eid,
-      </if>
-      <if test="sid != null" >
-        sid,
-      </if>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      eid,sid
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="eid != null" >
-        #{eid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null" >
-        #{sid,jdbcType=INTEGER},
-      </if>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{eid},#{sid}
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.javaboy.vhr.bean.EmpSalary" >
-    update empsalary
-    <set >
-      <if test="eid != null" >
-        eid = #{eid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null" >
-        sid = #{sid,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateByEid" parameterType="java.lang.Integer">
+    update empsalary set sid=#{sid} where eid=#{eid};
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.javaboy.vhr.bean.EmpSalary" >
-    update empsalary
-    set eid = #{eid,jdbcType=INTEGER},
-      sid = #{sid,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

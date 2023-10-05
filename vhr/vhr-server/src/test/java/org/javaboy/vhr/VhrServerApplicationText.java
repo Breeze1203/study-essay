@@ -3,6 +3,7 @@ package org.javaboy.vhr;
 
 import org.javaboy.vhr.bean.Employee;
 import org.javaboy.vhr.bean.Salary;
+import org.javaboy.vhr.mapper.EmpSalaryMapper;
 import org.javaboy.vhr.mapper.EmployeeMapper;
 import org.javaboy.vhr.mapper.SalaryMapper;
 import org.javaboy.vhr.rocketmq.ProducerMailService;
@@ -35,6 +36,10 @@ public class VhrServerApplicationText{
     @Autowired
     SobCfgService service;
 
+    @Autowired
+    EmpSalaryMapper empSalaryMapper;
+
+
     @Test
     void contextLoads() {
         Salary salary = new Salary();
@@ -58,5 +63,10 @@ public class VhrServerApplicationText{
         System.out.println(epmWithSalary.getTotal());
 //        long count = employeeMapper.getCount();
 //        System.out.println(count);
+    }
+    @Test
+    void test1(){
+        int i = empSalaryMapper.insertSalByEid(13, 13);
+        System.out.println(i);
     }
 }

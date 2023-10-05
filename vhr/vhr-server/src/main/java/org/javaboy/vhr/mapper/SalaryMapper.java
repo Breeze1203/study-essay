@@ -20,4 +20,7 @@ public interface SalaryMapper {
 
     // 根据名字查询套账
     List<Salary> getSalByName(@Param("name") String name);
+
+    // 查询所有套账的名字及id
+    List<Salary> getSalNameAndId();
 }

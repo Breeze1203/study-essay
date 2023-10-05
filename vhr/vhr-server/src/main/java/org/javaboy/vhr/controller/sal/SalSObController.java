@@ -62,4 +62,11 @@ public class SalSObController {
     public List<Salary> getSAlByName(@RequestParam("name")String name){
         return salSobService.getSalByName(name);
     }
+
+    @GetMapping("/SeaNaId")
+    public List<Salary> getSalNId(){
+        return salSobService.getSalNameAndId();
+    }
+
+
 }

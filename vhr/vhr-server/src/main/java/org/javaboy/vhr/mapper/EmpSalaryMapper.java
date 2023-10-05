@@ -1,17 +1,14 @@
 package org.javaboy.vhr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.javaboy.vhr.bean.EmpSalary;
+import org.springframework.stereotype.Repository;
 
+@Repository("EmpSalaryMapper")
 public interface EmpSalaryMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(EmpSalary record);
+    int insertSalByEid(@Param("sid") Integer sid,@Param("eid") Integer eid);
 
-    int insertSelective(EmpSalary record);
-
-    EmpSalary selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(EmpSalary record);
-
-    int updateByPrimaryKey(EmpSalary record);
+    // 根据eid修改sid
+    int updateByEid(@Param("sid") Integer sid,@Param("eid") Integer eid);
 }

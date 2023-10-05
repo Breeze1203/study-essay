@@ -41,4 +41,9 @@ public class SalSobService {
     public List<Salary> getSalByName(String name){
         return salaryMapper.getSalByName(name);
     }
+
+    // 查询所有工资套账的id和名称
+    public List<Salary> getSalNameAndId(){
+        return salaryMapper.getSalNameAndId();
+    }
 }

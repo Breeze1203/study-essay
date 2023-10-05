@@ -71,4 +71,7 @@
         <include refid="Base_Column_List"/>
         from salary where name like CONCAT('%',#{name},'%')
     </select>
+    <select id="getSalNameAndId" resultMap="BaseResultMap">
+        select id,name from salary
+    </select>
 </mapper>
