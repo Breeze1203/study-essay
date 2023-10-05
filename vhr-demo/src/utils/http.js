@@ -6,25 +6,23 @@ import router from "../router";
 const errorHandle = (status, info) => {
     switch (status) {
         case 400:
-            console.log("语义有误");
+            ElMessage.error("语义有误");
             break;
         case 401:
-            console.log("认证失败");
+            ElMessage.error("认证失败");
             break;
         case 403:
-            console.log("服务器拒绝访问");
+            router.replace("/")
             break;
         case 404:
-            console.log("地址错误");
             break;
         case 500:
-            console.log("服务器遇到意外")
+            ElMessage.error("服务器遇到意外");
             break;
         case 502:
-            console.log("服务器无响应");
+            ElMessage.error("服务器无响应");
             break;
         default:
-            router.replace("/")
             break;
     }
 }

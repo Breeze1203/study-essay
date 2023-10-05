@@ -7,7 +7,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/doLogin',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 username: username,
                 password: password
@@ -18,21 +20,27 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/logout',
-            contentType: '"application/json"'
+            headers: {
+                contentType: '"application/json"'
+            }
         })
     },
     menuinit() {
         return instace({
             method: 'post',
             url: '/api/menu',
-            contentType: '"application/json"'
+            headers: {
+                contentType: '"application/json"'
+            }
         })
     },
     positionInit() {
         return instace({
             method: 'get',
             url: '/api/sys/basic/pos',
-            contentType: '"application/json"'
+            headers: {
+                contentType: '"application/json"'
+            }
         })
     },
     // 删除职位
@@ -40,7 +48,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/deletePositionById',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id
             }
@@ -51,7 +61,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/addPosition',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 name: name
             }
@@ -62,7 +74,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/updatePosition',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id,
                 name: name
@@ -74,7 +88,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/deleteByIds',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 ids: ids,
             }
@@ -85,7 +101,9 @@ const request = {
         return instace({
                 method: 'get',
                 url: '/api/sys/basic/getAllJobLevel',
-                contentType: '"application/json"',
+                headers: {
+                    contentType: '"application/json"'
+                },
             }
         )
     },
@@ -94,7 +112,9 @@ const request = {
         return instace({
                 method: 'post',
                 url: '/api/sys/basic/addJobLevel',
-                contentType: 'application/json',
+                headers: {
+                    contentType: '"application/json"'
+                },
                 data: {
                     name: name,
                     titleLevel: titleLevel,
@@ -108,7 +128,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/deleteJobLevel',
-            contentType: 'application/json',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id
             }
@@ -119,7 +141,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/updateJobLevel',
-            contentType: 'application/json',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id,
                 name: name,
@@ -133,7 +157,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/basic/deleteJobLevelByIds',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 ids: ids,
             }
@@ -144,7 +170,9 @@ const request = {
         return instace({
             method: 'get',
             url: '/api/sys/permission/getAllRoles',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
     // 查询所有菜单,PostMana.vue使用
@@ -152,7 +180,9 @@ const request = {
         return instace({
             method: 'get',
             url: '/api/menus/getAllMenus',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
     // 根据角色查询其可以访问的菜单
@@ -160,7 +190,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/menus/getMenusByRole',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 mid: ItemId,
             }
@@ -175,7 +207,9 @@ const request = {
                 rid: rid,
                 mids: mids
             },
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
     // 添加角色 PosMana.vue组件使用
@@ -187,7 +221,9 @@ const request = {
                 name: roleEN,
                 nameZh: roleCN
             },
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
     // 根据id删除角色
@@ -195,7 +231,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/menus/deleteRolesById',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id
             },
@@ -206,7 +244,9 @@ const request = {
         return instace({
             method: 'get',
             url: '/api/sys/department/getAllDepartmentByParentId',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
     // 添加部门管理
@@ -214,7 +254,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/department/addDepartment',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id,
                 name: name,
@@ -228,7 +270,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/department/deleteDepartment',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 id: id,
             }
@@ -239,9 +283,11 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/hr/getAllHr',
-            contentType: '"application/json"',
-            data:{
-                keyword:keyword
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: {
+                keyword: keyword
             }
         })
     },
@@ -250,7 +296,9 @@ const request = {
         return instace({
             method: 'post',
             url: '/api/sys/hr/updateEnabled',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 enabled: enabled,
                 id: id
@@ -258,43 +306,49 @@ const request = {
         })
     },
     //   修改hr的角色
-    updateHrRole(hrid,rids){
+    updateHrRole(hrid, rids) {
         return instace({
             method: 'post',
             url: '/api/sys/hr/updateHrRole',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
-                hrid:hrid,
-                rids:rids
+                hrid: hrid,
+                rids: rids
             }
         })
     },
     // 删除hr角色
-    deleteHr(HrId){
+    deleteHr(HrId) {
         return instace({
             method: 'post',
             url: '/api/sys/hr/deleteHr',
-            contentType: '"application/json"',
-            data:{
-                HrId:HrId
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: {
+                HrId: HrId
             }
         })
     },
     // EmpBasic查询所有员工
-    initAllEmp(page,size,keyword){
+    initAllEmp(page, size, keyword) {
         return instace({
             method: 'post',
             url: '/api/employee/basic/',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
-                page:page,
-                size:size,
-                keyword:keyword,
+                page: page,
+                size: size,
+                keyword: keyword,
             }
         })
     },
     // EmpBasic 添加员工
-    addEmp(emp){
+    addEmp(emp) {
         return instace({
             method: 'post',
             url: '/api/employee/basic/addEmp',
@@ -305,9 +359,9 @@ const request = {
         })
     },
     // EmpBasic 删除员工
-    deleteEmp(id){
+    deleteEmp(id) {
         return instace({
-            method:"delete",
+            method: "delete",
             url: `/api/employee/basic/${id}`,
             headers: {
                 'Content-Type': 'application/json'
@@ -315,20 +369,20 @@ const request = {
         })
     },
     // 修改员工
-    updateEmp(emp){
+    updateEmp(emp) {
         return instace({
-            method:"put",
+            method: "put",
             url: `/api/employee/basic/updateEmp`,
             headers: {
                 'Content-Type': 'application/json'
             },
-            data:emp
+            data: emp
         })
     },
     // 下载Excel
-    downExcel(){
+    downExcel() {
         return instace({
-            method:"get",
+            method: "get",
             url: `/api/employee/basic/downExcel`,
             headers: {
                 'Content-Type': 'application/json'
@@ -336,26 +390,28 @@ const request = {
         })
     },
     // 高级搜索
-    getEmpByPageAdvanch(size,page,emp){
+    getEmpByPageAdvanch(size, page, emp) {
         return instace({
-            method:'post',
+            method: 'post',
             url: `/api/employee/basic/Advanched`,
             headers: {
                 'Content-Type': 'application/json'
             },
-            data:{
-                size:size,
-                page:page,
-                emp:emp,
+            data: {
+                size: size,
+                page: page,
+                emp: emp,
             }
         })
     },
     // Employee批量删除员工
-    deleteEmployeeByIds(ids){
+    deleteEmployeeByIds(ids) {
         return instace({
             method: 'post',
             url: '/api/employee/basic/deleteEmpIds',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
                 ids: ids,
             }
@@ -366,56 +422,105 @@ const request = {
         return instace({
             method: 'get',
             url: '/api/sal/sob/',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
         })
     },
-    insertSalary(salary){
+    insertSalary(salary) {
         return instace({
             method: 'post',
             url: '/api/sal/sob/',
-            contentType: '"application/json"',
-            data:salary
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: salary
         })
     },
-    deleteSal(id){
+    deleteSal(id) {
         return instace({
             method: 'post',
             url: '/api/sal/sob/deleteById',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             data: {
-                id:id
+                id: id
             }
         })
     },
     // 修改salary
-    updateSal(salary){
+    updateSal(salary) {
         return instace({
             method: 'post',
             url: '/api/sal/sob/updateSalary',
-            contentType: '"application/json"',
-            data:salary
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: salary
         })
     },
 //     根据名称搜索工资套账
-    searchSalByName(name){
+    searchSalByName(name) {
         return instace({
             method: 'get',
             url: '/api/sal/sob/SearchSalByName',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             params: {
-                name:name
+                name: name
             }
         })
     },
     // 员工工资套账数据初始化
-    initEmpWithSalary(size,page) {
+    initEmpWithSalary(size, page) {
         return instace({
             method: 'get',
             url: '/api/salary/sob/',
-            contentType: '"application/json"',
+            headers: {
+                contentType: '"application/json"'
+            },
             params: {
-                size:size,
-                page:page
+                size: size,
+                page: page
+            }
+        })
+    },
+    // 查询所有工资套账的id和name
+    SearchNId() {
+        return instace({
+            method: 'get',
+            url: '/api/sal/sob/SeaNaId',
+            headers: {
+                contentType: '"application/json"'
+            }
+        })
+    },
+    updateSid(eid, sid) {
+        return instace({
+            method: 'post',
+            url: '/api/salary/sob/updateSalSid',
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: {
+                eid: eid,
+                sid: sid
+            }
+
+        })
+    },
+    insertSid(eid, sid) {
+        return instace({
+            method: 'post',
+            url: '/api/salary/sob/insertSid',
+            headers: {
+                contentType: '"application/json"'
+            },
+            data: {
+                eid: eid,
+                sid: sid
             }
         })
     }
